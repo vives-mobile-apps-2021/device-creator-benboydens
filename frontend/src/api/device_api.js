@@ -18,9 +18,7 @@ const DevicesAPI = {
 
     create_device(name) {
         console.log(`Creating device with name ${name}`)
-        api.post(`/${this.resource}`, {
-            name: name
-        })
+        return api.post(`/${this.resource}`, { name: name })
     }
 }
 
