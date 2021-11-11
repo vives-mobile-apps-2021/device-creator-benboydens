@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import dotenv from 'dotenv'
 import indexRoute from './routes/index.js'
 import deviceRoute from './routes/devicesRoute.js'
@@ -7,6 +8,9 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
+
+// enable cross origin requests
+app.use(cors());
 
 // enable application/json parsing
 app.use(express.json());
