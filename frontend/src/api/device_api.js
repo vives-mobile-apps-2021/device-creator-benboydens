@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'https://localhost:5000'
+    baseURL: 'http://localhost:5000'
 })
 
-const Devices = {
+const DevicesAPI = {
     resource: 'devices',
     get_all_devices() {
         console.log(`Getting all devices`)
@@ -24,4 +24,4 @@ const Devices = {
     }
 }
 
-export { api, Devices }
+export { api, DevicesAPI }
