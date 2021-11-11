@@ -7,10 +7,16 @@
       ></v-avatar>
 
       <v-tabs centered class="ml-n9" color="grey darken-1">
-        <v-tab to="/" exact>
+        <v-tab to="/">
           Home
         </v-tab>
-        <v-tab to="/about" exact>
+        <v-tab to="/devices">
+          Devices
+        </v-tab>
+        <v-tab to="/devices/create">
+          Create
+        </v-tab>
+        <v-tab to="/about">
           About
         </v-tab>
       </v-tabs>

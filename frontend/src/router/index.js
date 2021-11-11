@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import CreateDevice from '@/views/CreateDevice.vue'
+import DeviceList from '@/views/DeviceList.vue'
 
 Vue.use(VueRouter)
 
@@ -9,6 +11,16 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/devices',
+    name: "Devices",
+    component: DeviceList
+  },
+  {
+    path: '/devices/create',
+    name: "Create",
+    component: CreateDevice
   },
   {
     path: '/about',
