@@ -1,30 +1,36 @@
-var devices = [
-    { id: 0, name: 'benboydens' },
-    { id: 1, email: 'mydevice' }
-];
+import { Devices } from '../database/database.js'
+
 
 function list(req, res, next) {
-    res.json(devices);
+    res.send(Devices.all());
 }
 
 function load(req, res, next) {
     let id = req.params.id;
-    req.device = devices[id];
+    req.device = Devices.get_by_id(id);
     if (req.device) {
         next();
-      } else {
-        var err = new Error('cannot find user ' + id);
+    } else {
+        var err = new Error('cannot find device ' + id);
         err.status = 404;
         next(err);
-      }
+    }
 }
 
 function get(req, res) {
-    res.json(req.device);
+    res.send(req.device);
 }
 
-function create(req, res) {
-    res.send("CREATE")
+function post(req, res) {
+    Devices.create(req.body.name)
+        .then((device) => {
+            res.status(201).send(device);
+        })
+        .catch(() => {
+            res.status(500).send({
+                message: "Failed to write to database."
+            })
+        })
 }
 
-export { list, load, get, create }
+export { list, load, get, post }
