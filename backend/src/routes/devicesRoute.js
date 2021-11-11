@@ -1,5 +1,6 @@
+import { validate } from 'jsonschema'
 import { Devices } from '../database/database.js'
-
+import { DeviceSchema } from '../validation/deviceValidation.js'
 
 function list(req, res, next) {
     res.send(Devices.all());
@@ -22,6 +23,18 @@ function get(req, res) {
 }
 
 function post(req, res) {
+    // validation
+    const validation = validate(req.body, DeviceSchema.create);
+
+    if (!validation.valid) {
+        res.status(400).send({
+            message: 'JSON Validation failed',
+            details: validation.errors.map(e => e.message)
+        });
+        return;
+    }
+
+    // actually create the device in the database
     Devices.create(req.body.name)
         .then((device) => {
             res.status(201).send(device);
