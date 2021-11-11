@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import * as device from './routes/devicesRoute.js'
+import indexRoute from './routes/index.js'
+import deviceRoute from './routes/devicesRoute.js'
 import { connect } from './database/database.js';
 dotenv.config();
 
@@ -12,15 +13,13 @@ app.use(express.json());
 
 
 // root route
-app.get('/', (req, res) => {
-    res.send("Hello World!")
-});
+app.get('/', indexRoute.get);
 
 // device route
-app.get('/devices', device.list)
-app.all('/devices/:id', device.load)
-app.get('/devices/:id', device.get)
-app.post('/devices', device.post)
+app.get('/devices', deviceRoute.list)
+app.all('/devices/:id', deviceRoute.load)
+app.get('/devices/:id', deviceRoute.get)
+app.post('/devices', deviceRoute.post)
 
 // connect data base should be refactored to handle errors
 await connect();
