@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>Device List</h1>
-    <v-row>
+  <v-row>
       <v-col v-for="device in devices" :key="device.id" cols="12" sm="6" md="4">
         <v-card outlined>
           <v-card-title>
@@ -18,7 +16,6 @@
         </v-card>
       </v-col>
     </v-row>
-  </div>
 </template>
 
 <script>
@@ -40,5 +37,5 @@ export default {
         console.log("ERROR", err);
       });
   },
-};
+}
 </script>
