@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pb-5">
+  <v-sheet class="pa-3">
     <v-container>
       <v-row>
         <v-col cols="12" md="6">
