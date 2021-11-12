@@ -34,7 +34,7 @@ export default {
         this.devices = res.data;
       })
       .catch((err) => {
-        console.log("ERROR", err);
+        console.log(err);
       });
   },
 }

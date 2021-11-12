@@ -31,11 +31,6 @@
     <v-main class="grey lighten-3">
       <v-container>
         <router-view></router-view>
-        <!-- <v-row>
-          <v-col v-for="n in 24" :key="n" cols="4">
-            <v-card height="200"></v-card>
-          </v-col>
-        </v-row> -->
       </v-container>
     </v-main>
   </v-app>
@@ -43,8 +38,6 @@
 
 <script>
 export default {
-  data: () => ({
-    links: ["Home", "Devices", "Create"],
-  }),
+  name: "App"
 };
 </script>

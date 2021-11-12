@@ -33,7 +33,7 @@ export default {
           // todo redirect user + alert
         })
         .catch((err) => {
-          console.log("ERROR", err);
+          console.log(err);
         });
     },
   },
