@@ -24,10 +24,14 @@ const Devices = {
         return db.data.devices
     },
 
-    create: (name) => {
+    create: (device) => {
         const new_device = {
             id: Devices.next_id(),
-            name: name
+            name: device.name,
+            description: device.description,
+            guid: device.guid,
+            location: device.location,
+            image: device.image || undefined
         };
 
         db.data.devices.push(new_device);
