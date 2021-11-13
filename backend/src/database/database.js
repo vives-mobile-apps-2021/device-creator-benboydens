@@ -16,8 +16,8 @@ const connect = async () => {
 
 const Devices = {
     next_id: () => {
-        const id = Math.max(...db.data.devices.map(d => d.id))
-        return (id || 0) + 1;
+        const id = Math.max(...db.data.devices.map(d => d.id), -1);
+        return id + 1;
     },
 
     all: () => {
