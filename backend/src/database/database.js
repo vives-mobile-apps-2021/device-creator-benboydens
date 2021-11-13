@@ -44,7 +44,8 @@ const Devices = {
     },
 
     get_by_id: (id) => {
-        return db.data.devices[id];
+        id = parseInt(id);
+        return db.data.devices.find(dev => dev.id === id);
     }
 };
 
