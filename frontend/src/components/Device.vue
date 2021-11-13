@@ -1,16 +1,24 @@
 <template>
-  <v-sheet class="pa-3">
-    <v-container v-if="!error">
-      <h2>{{ device.name }}</h2>
-      <ul>
-        <li><b>id: </b>{{ device.id }}</li>
-        <li><b>description: </b>{{ device.description }}</li>
-      </ul>
-    </v-container>
-    <v-container v-else>
-      {{ error }}
-    </v-container>
-  </v-sheet>
+  <div v-if="!error">
+    <v-card v-if="device" outlined>
+      <v-card-title>
+        {{ device.name }}
+      </v-card-title>
+      <v-card-subtitle>
+        {{ device.description }}
+      </v-card-subtitle>
+      <v-card-text>
+        <ul>
+          <li><b>Guid: </b>{{ device.guid }}</li>
+          <li><b>Latitude: </b>{{ device.location.lat }}</li>
+          <li><b>Longitude: </b>{{ device.location.long }}</li>
+        </ul>
+      </v-card-text>
+    </v-card>
+  </div>
+  <v-container v-else>
+    {{ error }}
+  </v-container>
 </template>
 
 <script>
@@ -20,19 +28,15 @@ export default {
   name: "Device",
   data: () => {
     return {
-      device: {},
-      error: undefined
+      device: undefined,
+      error: undefined,
     };
   },
   created() {
-    let id = this.$route.params.id
+    let id = this.$route.params.id;
     DevicesAPI.get_one_device(id)
       .then((res) => {
-        this.device = {
-          name: res.data.name,
-          id: id,
-          description: "Wow wat een mooie beschrijving!",
-        };
+        this.device = res.data;
       })
       .catch((err) => {
         console.log(err);

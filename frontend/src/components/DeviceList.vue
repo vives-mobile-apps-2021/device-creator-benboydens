@@ -6,9 +6,7 @@
             {{ device.name }}
           </v-card-title>
           <v-card-text>
-            <ul>
-              <li><b>id:</b> {{ device.id || 0 }}</li>
-            </ul>
+             {{ device.description }}
           </v-card-text>
           <v-card-actions>
             <v-btn text color="blue" :to="'/devices/' + (device.id || 0)" >Details</v-btn>

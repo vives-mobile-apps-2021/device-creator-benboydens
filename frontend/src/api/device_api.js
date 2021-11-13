@@ -14,10 +14,7 @@ const DevicesAPI = {
         return api.get(`/${this.resource}/${id}`)
     },
 
-    create_device(name) {
-        let device = {
-            name: name
-        }
+    create_device(device) {
         return api.post(`/${this.resource}`, device)
     }
 }
