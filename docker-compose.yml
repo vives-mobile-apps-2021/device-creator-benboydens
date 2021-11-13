@@ -15,4 +15,7 @@ services:
       context: ./frontend
     ports:
       - 8080:8080
+    environment:
+      VUE_APP_API_URL: http://localhost
+      VUE_APP_API_PORT: 5000
     restart: always
