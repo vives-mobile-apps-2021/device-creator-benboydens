@@ -4,13 +4,22 @@ import dotenv from 'dotenv'
 import indexRoute from './routes/index.js'
 import deviceRoute from './routes/devicesRoute.js'
 import imageRoute from './routes/imageRoute.js'
-import { connect } from './database/database.js';
+import { connect } from './database/database.js'
+import path from 'path'
 import multer from 'multer'
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
-const upload = multer({ dest: 'uploads/' })
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+  })
+const upload = multer({ storage: storage })
 
 // enable cross origin requests
 app.use(cors());
