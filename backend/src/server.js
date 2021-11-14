@@ -29,6 +29,7 @@ app.get('/devices/:id', deviceRoute.get)
 app.post('/devices', deviceRoute.post)
 
 // image route
+app.get('/images/:id', imageRoute.get)
 app.post('/images/upload', upload.single('image'), imageRoute.post)
 
 // connect data base should be refactored to handle errors
