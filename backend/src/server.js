@@ -6,11 +6,11 @@ import deviceRoute from './routes/devicesRoute.js'
 import imageRoute from './routes/imageRoute.js'
 import { connect } from './database/database.js';
 import multer from 'multer'
-const upload = multer({ dest: 'uploads/' })
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
+const upload = multer({ dest: 'uploads/' })
 
 // enable cross origin requests
 app.use(cors());

@@ -19,4 +19,18 @@ const DevicesAPI = {
     }
 }
 
-export { api, DevicesAPI }
+const ImageAPI = {
+    resource: 'images',
+    upload_image(file) {
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        const formData = new FormData();
+        formData.append('image', file); // name 'image' has to be the same as in the backend for multer!!!
+        return api.post(`/${this.resource}/upload`, formData, config);
+    }
+}
+
+export { api, DevicesAPI, ImageAPI }
