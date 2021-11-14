@@ -1,6 +1,5 @@
 <template>
   <v-sheet class="pa-3">
-    <v-form action="http://localhost:5000/images/upload" enctype="multipart/form-data" method="post">
       <v-container>
         <v-row>
           <v-col cols="12" md="6">
@@ -39,11 +38,10 @@
             </v-alert>
           </v-col>
           <v-col cols="2">
-            <v-btn color="primary" type="submit">Create</v-btn>
+            <v-btn color="primary" @click="upload_image">Create</v-btn>
           </v-col>
         </v-row>
       </v-container>
-    </v-form>
   </v-sheet>
 </template>
 
@@ -72,13 +70,14 @@ export default {
         });
       }
     },
-    create_device() {
+    create_device(response) {
+      // response is the response from the backend when we upload an image
       // TODO maka actual form with validation
       let device = {
         name: this.name,
         description: this.description,
         guid: this.guid,
-        image: this.image,
+        image: response.filename,
         location: {
           lat: parseFloat(this.lat),
           long: parseFloat(this.long),
@@ -89,8 +88,7 @@ export default {
           if (res.status < 300) {
             // redirect user to device list page
             alert("Device was made successfully!");
-            // this.$router.push("/devices");
-            console.log(res);
+            this.$router.push("/devices");
           } else {
             // hangle error message
             this.error = res;
@@ -103,13 +101,11 @@ export default {
     },
     upload_image() {
       // upload image to backend
-      // first upload image to backend.
       // backend returns unique name of image. We use that as name of image
-      console.log("Type ", typeof this.image);
-      console.log("Image ", this.image);
       ImageAPI.upload_image(this.image)
         .then((res) => {
-          console.log("RES", res);
+          // res.data contains response from serve. Here we can find the image name
+          this.create_device(res.data);
         })
         .catch((err) => {
           console.log("ERR", err);
