@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import CreateDeviceView from '@/views/CreateDeviceView.vue'
 import DeviceListView from '@/views/DeviceListView.vue'
 import DeviceView from '@/views/DeviceView.vue'
+import QRScanView from '@/views/QRScanView.vue'
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/scan',
+    name: 'Scan',
+    component: QRScanView
   },
   {
     path: '/devices',
