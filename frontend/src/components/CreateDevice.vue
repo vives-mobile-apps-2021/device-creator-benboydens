@@ -94,11 +94,25 @@
             <v-btn color="primary" type="submit" :disabled="invalid"
               >Create</v-btn
             >
-            <v-btn @click="validate" color="secondary" class="ml-3">Validate</v-btn>
+            <v-btn @click="validate" color="secondary" class="ml-3"
+              >Validate</v-btn
+            >
           </v-row>
         </v-container>
       </v-form>
     </validation-observer>
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title>Message</v-card-title>
+        <v-card-text>Device was made successfully!</v-card-text>
+        <v-card-actions
+          ><v-spacer></v-spacer>
+          <v-btn color="primary" text @click="close_dialog">
+            Close
+          </v-btn></v-card-actions
+        >
+      </v-card>
+    </v-dialog>
   </v-sheet>
 </template>
 
@@ -139,6 +153,7 @@ export default {
       image: undefined,
       lat: undefined,
       long: undefined,
+      dialog: false,
       error: undefined,
     };
   },
@@ -177,9 +192,8 @@ export default {
       DevicesAPI.create_device(device)
         .then((res) => {
           if (res.status < 300) {
-            // redirect user to device list page
-            alert("Device was made successfully!");
-            this.$router.push("/devices");
+            //show dialog
+            this.dialog = true;
           } else {
             // hangle error message
             this.error = res;
@@ -204,6 +218,11 @@ export default {
           console.log("ERR", err);
         });
     },
+    close_dialog() {
+      // closed dialog and redirect user to device list page
+      this.dialog = false;
+      this.$router.push("/devices");
+    }
   },
 };
 </script>
