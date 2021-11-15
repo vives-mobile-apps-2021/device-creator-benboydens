@@ -1,52 +1,133 @@
 <template>
   <v-sheet class="pa-3">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field label="Name" v-model="name" required />
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field label="Description" v-model="description" required />
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field label="GUID" v-model="guid" disabled />
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-file-input
-              accept="image/*"
-              prepend-icon="mdi-camera"
-              label="Image"
-              truncate-length="50"
-              v-model="image"
-              name="image"
-              required
-            ></v-file-input>
-          </v-col>
-          <v-col cols="12" class="pb-0">
-            <v-input prepend-icon="mdi-map-marker">
-              <v-btn text @click="get_location" class="px-0 mr-3"
-                >Location</v-btn
+    <validation-observer ref="observer" v-slot="{ invalid }">
+      <v-form @submit.prevent="upload_image">
+        <v-container>
+          <v-row>
+            <v-col cols="12" md="6">
+              <validation-provider
+                v-slot="{ errors }"
+                name="Name"
+                rules="required|max:64"
               >
-              <span v-if="lat || long" class="location-text">
-                {{ lat }}° Lat | {{ long }}° Long
-              </span>
-            </v-input>
-          </v-col>
-          <v-col cols="12" v-if="error">
-            <v-alert dense outlined type="error" class="mb-0">
-              {{ error }}
-            </v-alert>
-          </v-col>
-          <v-col cols="2">
-            <v-btn color="primary" @click="upload_image">Create</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
+                <v-text-field
+                  label="Name"
+                  v-model="name"
+                  required
+                  :counter="64"
+                  :error-messages="errors"
+                />
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" md="6">
+              <validation-provider
+                v-slot="{ errors }"
+                name="Description"
+                rules="required|max:128"
+              >
+                <v-text-field
+                  label="Description"
+                  v-model="description"
+                  required
+                  :counter="128"
+                  :error-messages="errors"
+                />
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" md="6">
+              <validation-provider
+                v-slot="{ errors }"
+                name="GUID"
+                rules="required|length:32"
+              >
+                <v-text-field
+                  label="GUID"
+                  v-model="guid"
+                  disabled
+                  :error-messages="errors"
+                />
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" md="6">
+              <validation-provider
+                v-slot="{ errors }"
+                name="Image"
+                rules="required"
+              >
+                <v-file-input
+                  accept="image/*"
+                  prepend-icon="mdi-camera"
+                  label="Image"
+                  truncate-length="50"
+                  v-model="image"
+                  name="image"
+                  required
+                  :error-messages="errors"
+                ></v-file-input>
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" class="pb-0">
+              <validation-provider
+                v-slot="{ errors }"
+                name="Location"
+                rules="required"
+              >
+                <v-input
+                  prepend-icon="mdi-map-marker"
+                  :error-messages="errors"
+                  :value="lat && long"
+                >
+                  <v-btn text @click="get_location" class="px-0 mr-3"
+                    >Location</v-btn
+                  >
+                  <span v-if="lat || long" class="location-text">
+                    {{ lat }}° Lat | {{ long }}° Long
+                  </span>
+                </v-input>
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" v-if="error">
+              <v-alert dense outlined type="error" class="mb-0">
+                {{ error }}
+              </v-alert>
+            </v-col>
+            <v-btn color="primary" type="submit" :disabled="invalid"
+              >Create</v-btn
+            >
+            <v-btn @click="validate" color="secondary" class="ml-3">Validate</v-btn>
+          </v-row>
+        </v-container>
+      </v-form>
+    </validation-observer>
   </v-sheet>
 </template>
 
 <script>
 import { DevicesAPI, ImageAPI } from "@/api/device_api.js";
+import { required, max, length } from "vee-validate/dist/rules";
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode,
+} from "vee-validate";
+
+setInteractionMode("eager");
+
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty",
+});
+
+extend("length", {
+  ...length,
+  message: "{_field_} must have {length} characters",
+});
+
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters",
+});
 
 export default {
   name: "CreateDevice",
@@ -61,10 +142,17 @@ export default {
       error: undefined,
     };
   },
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
   created() {
     this.guid = this.$route.query.guid;
   },
   methods: {
+    validate() {
+      this.$refs.observer.validate();
+    },
     get_location() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -103,6 +191,8 @@ export default {
         });
     },
     upload_image() {
+      // validate
+      this.$refs.observer.validate();
       // upload image to backend
       // backend returns unique name of image. We use that as name of image
       ImageAPI.upload_image(this.image)
