@@ -13,9 +13,6 @@
         <v-tab to="/devices">
           Devices
         </v-tab>
-        <v-tab to="/devices/create">
-          Create
-        </v-tab>
         <v-tab to="/scan">
           Scan
         </v-tab>
