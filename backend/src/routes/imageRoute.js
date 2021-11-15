@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -20,6 +19,7 @@ const imageRoute = {
         });
     },
     post: (req, res, next) => {
+        // TODO add extra checks
         console.log("File: ", req.file);
         console.log("Body: ", req.body);
         res.status(201).send({
