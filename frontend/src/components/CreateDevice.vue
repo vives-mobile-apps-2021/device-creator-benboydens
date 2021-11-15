@@ -54,12 +54,15 @@ export default {
     return {
       name: "",
       description: "",
-      guid: "3F2504E04F8911D39A0C0305E82C3301",
+      guid: undefined,
       image: undefined,
       lat: undefined,
       long: undefined,
       error: undefined,
     };
+  },
+  created() {
+    this.guid = this.$route.query.guid;
   },
   methods: {
     get_location() {
