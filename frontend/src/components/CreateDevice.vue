@@ -206,23 +206,29 @@ export default {
     },
     upload_image() {
       // validate
-      this.$refs.observer.validate();
-      // upload image to backend
-      // backend returns unique name of image. We use that as name of image
-      ImageAPI.upload_image(this.image)
+      this.$refs.observer
+        .validate()
         .then((res) => {
-          // res.data contains response from serve. Here we can find the image name
-          this.create_device(res.data);
+          if (res) {
+            // validation successfull so upload image to backend
+            // backend returns unique name of image. We use that as name of image
+            ImageAPI.upload_image(this.image)
+              .then((res) => {
+                // res.data contains response from serve. Here we can find the image name
+                this.create_device(res.data);
+              })
+              .catch((err) => {
+                console.log("ERR", err);
+              });
+          }
         })
-        .catch((err) => {
-          console.log("ERR", err);
-        });
+        .catch((err) => console.log("ERROR", err));
     },
     close_dialog() {
       // closed dialog and redirect user to device list page
       this.dialog = false;
       this.$router.push("/devices");
-    }
+    },
   },
 };
 </script>
