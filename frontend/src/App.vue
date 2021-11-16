@@ -13,6 +13,9 @@
         <v-tab to="/devices">
           Devices
         </v-tab>
+        <v-tab to="/map">
+          Map
+        </v-tab>
         <v-tab to="/scan">
           Scan
         </v-tab>
