@@ -4,7 +4,7 @@ import indexRoute from './routes/index.js'
 import deviceRoute from './routes/devicesRoute.js'
 import imageRoute from './routes/imageRoute.js'
 import userRoute from './routes/userRoute.js'
-import { connect, Users } from './database/database.js'
+import { connect } from './database/database.js'
 import initializePassport from './middleware/passport.js'
 import isAuthenticated from './middleware/authentication.js'
 import session from 'express-session';
@@ -15,17 +15,6 @@ import multer from 'multer'
 
 const app = express();
 const PORT = config.general.port;
-
-// set up multer storage for images
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
-  }
-})
-const upload = multer({ storage: storage })
 
 // enable cross origin requests
 app.use(cors());
@@ -42,6 +31,18 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// set up multer storage for images
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+  }
+})
+const upload = multer({ storage: storage })
+
 
 // root route
 app.get('/', indexRoute.get);
