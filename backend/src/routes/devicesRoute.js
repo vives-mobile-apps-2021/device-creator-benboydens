@@ -27,7 +27,6 @@ const DeviceRoute = {
     post: (req, res) => {
         // validation
         const validation = validate(req.body, DeviceSchema.create);
-
         if (!validation.valid) {
             res.status(400).send({
                 message: 'JSON Validation failed',

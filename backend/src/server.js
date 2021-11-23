@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import indexRoute from './routes/index.js'
 import deviceRoute from './routes/devicesRoute.js'
 import imageRoute from './routes/imageRoute.js'
+import userRoute from './routes/userRoute.js'
 import { connect } from './database/database.js'
 import path from 'path'
 import multer from 'multer'
@@ -36,6 +37,11 @@ app.get('/devices', deviceRoute.list)
 app.all('/devices/:id', deviceRoute.load)
 app.get('/devices/:id', deviceRoute.get)
 app.post('/devices', deviceRoute.post)
+
+// user route
+app.post('/register', userRoute.register)
+app.post('/login', userRoute.login)
+app.delete('/logout', userRoute.logout)
 
 // image route
 app.get('/images/:id', imageRoute.get)

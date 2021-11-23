@@ -11,7 +11,7 @@ const db = new Low(adapter)
 
 const connect = async () => {
     await db.read()
-    db.data = db.data || { devices: [] }
+    db.data = db.data || { devices: [], users: [] }
 };
 
 const Devices = {
@@ -49,4 +49,33 @@ const Devices = {
     }
 };
 
-export { connect, Devices }
+const Users = {
+    next_id: () => {
+        const id = Math.max(...db.data.users.map(d => d.id), -1);
+        return id + 1;
+    },
+    create: (email, password) => {
+        const new_user = {
+            id: this.next_id(),
+            email: email,
+            password: password
+        }
+
+        db.data.user.push(new_user);
+
+        return new Promise((resolve, reject) => {
+            db.write()
+                .then(() => resolve(new_device))
+                .catch(() => reject({}))
+        })
+    },
+    find_by_id: (id) => {
+        id = parseInt(id);
+        return db.data.users.find(user => user.id === id);
+    },
+    find_by_email: (email) => {
+        return db.data.users.find(user => user.email === email);
+    }
+}
+
+export { connect, Devices, Users }
