@@ -6,6 +6,7 @@ import imageRoute from './routes/imageRoute.js'
 import userRoute from './routes/userRoute.js'
 import { connect, Users } from './database/database.js'
 import initializePassport from './middleware/passport.js'
+import isAuthenticated from './middleware/authentication.js'
 import session from 'express-session';
 import passport from 'passport'
 import config from './config/config.js'
@@ -49,7 +50,7 @@ app.get('/', indexRoute.get);
 app.get('/devices', deviceRoute.list)
 app.all('/devices/:id', deviceRoute.load)
 app.get('/devices/:id', deviceRoute.get)
-app.post('/devices', deviceRoute.post)
+app.post('/devices', isAuthenticated, deviceRoute.post)
 
 // user route
 app.post('/register', userRoute.register)
@@ -58,7 +59,7 @@ app.delete('/logout', userRoute.logout)
 
 // image route
 app.get('/images/:id', imageRoute.get)
-app.post('/images/upload', upload.single('image'), imageRoute.post)
+app.post('/images/upload', isAuthenticated, upload.single('image'), imageRoute.post)
 
 // connect data base should be refactored to handle errors
 await connect();
