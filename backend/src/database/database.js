@@ -54,18 +54,18 @@ const Users = {
         const id = Math.max(...db.data.users.map(d => d.id), -1);
         return id + 1;
     },
-    create: (email, password) => {
+    create: (user) => {
         const new_user = {
-            id: this.next_id(),
-            email: email,
-            password: password
+            id: Users.next_id(),
+            email: user.email,
+            password: user.password
         }
 
-        db.data.user.push(new_user);
+        db.data.users.push(new_user);
 
         return new Promise((resolve, reject) => {
             db.write()
-                .then(() => resolve(new_device))
+                .then(() => resolve(new_user))
                 .catch(() => reject({}))
         })
     },
