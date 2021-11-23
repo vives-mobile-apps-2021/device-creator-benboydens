@@ -58,7 +58,7 @@ const Users = {
         const new_user = {
             id: Users.next_id(),
             email: user.email,
-            password: user.password
+            password: user.password // TODO hash passwords
         }
 
         db.data.users.push(new_user);

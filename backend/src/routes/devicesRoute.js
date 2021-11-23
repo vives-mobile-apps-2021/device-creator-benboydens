@@ -38,7 +38,7 @@ const DeviceRoute = {
         // actually create the device in the database
         Devices.create(req.body)
             .then((device) => {
-                res.status(201).send(device);
+                res.status(201).send(device); // TODO dont send password back
             })
             .catch(() => {
                 res.status(500).send({

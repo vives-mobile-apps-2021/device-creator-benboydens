@@ -1,11 +1,11 @@
 import { Users } from "../database/database.js";
-import { UserSchema } from "../validation/userValidation.js";
+import { AuthenticationSchema } from "../validation/authentication.js";
 import { validate } from "jsonschema";
 
 const userRoute = {
     register: (req, res, next) => {
         // validation
-        const validation = validate(req.body, UserSchema.register);
+        const validation = validate(req.body, AuthenticationSchema.register);
         if (!validation.valid) {
             res.status(400).send({
                 message: 'JSON Validation failed',
@@ -24,7 +24,16 @@ const userRoute = {
             })
     },
     login: (req, res, next) => {
-        res.send("Login");
+        // validation
+        const validation = validate(req.body, AuthenticationSchema.login);
+        if (!validation.valid) {
+            res.status(400).send({
+                message: 'JSON Validation failed',
+                details: validation.errors.map(e => e.message)
+            });
+            return;
+        }
+        res.send("Login")
     },
     logout: (req, res, next) => {
         res.send("Logout");
