@@ -35,7 +35,7 @@ function initialize(passport) {
 
     // (4) Deserialize user from session
     passport.deserializeUser((id, done) => {
-        console.log("Deserialize iser from id");
+        console.log("Deserialize user from id");
         return done(null, Users.find_by_id(id));
     })
 }

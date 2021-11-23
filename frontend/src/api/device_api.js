@@ -33,4 +33,24 @@ const ImageAPI = {
     }
 }
 
-export { api, DevicesAPI, ImageAPI }
+const UserAPI = {
+    register(email, password) {
+        const new_user = {
+            email: email,
+            password: password
+        }
+        return api.post('/register', new_user);
+    },
+    login(email, password) {
+        const user = {
+            email: email,
+            password: password
+        }
+        return api.post('/login', user);
+    },
+    logout() {
+        return api.delete('/logout');
+    }
+}
+
+export { api, DevicesAPI, ImageAPI, UserAPI }
