@@ -1,6 +1,8 @@
 import { Users } from "../database/database.js";
 import { AuthenticationSchema } from "../validation/authentication.js";
 import { validate } from "jsonschema";
+import passport from "passport";
+import bcrypt from 'bcrypt';
 
 const userRoute = {
     register: (req, res, next) => {
@@ -13,9 +15,12 @@ const userRoute = {
             });
             return;
         }
-        Users.create(req.body)
-            .then((result) => {
-                res.status(201).send(result);
+        bcrypt.hash(req.body.password, 10)
+            .then((hashedPassword) => {
+                return Users.create(req.body.email, hashedPassword);
+            })
+            .then((user) => {
+                res.status(201).send(user);
             })
             .catch(() => {
                 res.status(500).send({
@@ -24,16 +29,26 @@ const userRoute = {
             })
     },
     login: (req, res, next) => {
-        // validation
+        // Validation
         const validation = validate(req.body, AuthenticationSchema.login);
         if (!validation.valid) {
-            res.status(400).send({
-                message: 'JSON Validation failed',
-                details: validation.errors.map(e => e.message)
+            return res.status(400).send({
+                message: 'Invalid user information',
+                errors: validation.errors.map(e => e.stack)
             });
-            return;
         }
-        res.send("Login")
+
+        passport.authenticate('local', (err, user, info) => {
+            if (err) return res.status(500).send({ message: "User authentication failed" });
+            if (!user) return res.status(400).send({ message: "Credentials invalid" });
+
+            console.log("User found and logging in");
+            req.login(user, (err) => {
+                if (err) return res.status(500).send({ message: "Login action failed" });
+
+                res.send(user);
+            })
+        })(req, res)    // Middleware
     },
     logout: (req, res, next) => {
         res.send("Logout");

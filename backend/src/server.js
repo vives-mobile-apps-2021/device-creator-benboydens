@@ -1,25 +1,29 @@
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
 import indexRoute from './routes/index.js'
 import deviceRoute from './routes/devicesRoute.js'
 import imageRoute from './routes/imageRoute.js'
 import userRoute from './routes/userRoute.js'
-import { connect } from './database/database.js'
+import { connect, Users } from './database/database.js'
+import initializePassport from './middleware/passport.js'
+import session from 'express-session';
+import passport from 'passport'
+import config from './config/config.js'
 import path from 'path'
 import multer from 'multer'
-dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = config.general.port;
+
+// set up multer storage for images
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
-    }
-  })
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+  }
+})
 const upload = multer({ storage: storage })
 
 // enable cross origin requests
@@ -28,6 +32,15 @@ app.use(cors());
 // enable application/json parsing
 app.use(express.json());
 
+// setup authentication and sessions
+initializePassport(passport);
+app.use(session({
+  secret: config.sessions.secret,
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // root route
 app.get('/', indexRoute.get);
@@ -52,5 +65,5 @@ await connect();
 
 
 app.listen(PORT, () => {
-    console.log(`Express API running on port ${PORT}.`)
+  console.log(`Express API running on port ${PORT}.`)
 })
