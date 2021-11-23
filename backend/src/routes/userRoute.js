@@ -51,7 +51,10 @@ const userRoute = {
         })(req, res)    // Middleware
     },
     logout: (req, res, next) => {
-        res.send("Logout");
+        req.logOut();
+        res.send({
+            message: "Successfully logged out"
+        })
     }
 }
 
