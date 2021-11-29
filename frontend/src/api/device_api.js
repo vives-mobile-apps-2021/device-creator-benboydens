@@ -51,6 +51,9 @@ const UserAPI = {
     },
     logout() {
         return api.delete('/logout', { withCredentials: true });
+    },
+    get_user(id) {
+        return api.get(`/users/${id}`);
     }
 }
 
