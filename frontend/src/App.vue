@@ -15,7 +15,7 @@
         class="hidden-sm-and-down"
         color="grey darken-1 shrink"
         size="32"
-      ></v-avatar>
+      ><span class="white--text">CJ</span></v-avatar>
     </v-app-bar>
 
     <v-main class="grey lighten-3">

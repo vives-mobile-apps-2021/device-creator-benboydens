@@ -3,9 +3,11 @@ const AuthenticationSchema = {
         type: "object",
         properties: {
             email: { type: "string", format: "email" },
-            password: { type: "string" }
+            password: { type: "string" },
+            firstname: { type: "string" },
+            lastname: { type: "string" }
         },
-        required: ["email", "password"],
+        required: ["email", "password", "firstname", "lastname"],
         additionalProperties: false
     },
     login: {

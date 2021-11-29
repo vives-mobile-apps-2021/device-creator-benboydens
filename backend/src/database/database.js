@@ -54,11 +54,13 @@ const Users = {
         const id = Math.max(...db.data.users.map(d => d.id), -1);
         return id + 1;
     },
-    create: (email, password) => {
+    create: (email, password, firstname, lastname) => {
         const new_user = {
             id: Users.next_id(),
             email: email,
-            password: password
+            password: password,
+            firstname: firstname,
+            lastname: lastname
         }
 
         db.data.users.push(new_user);

@@ -17,7 +17,7 @@ const userRoute = {
         }
         bcrypt.hash(req.body.password, 10)
             .then((hashedPassword) => {
-                return Users.create(req.body.email, hashedPassword);
+                return Users.create(req.body.email, hashedPassword, req.body.firstname, req.body.lastname);
             })
             .then((user) => {
                 res.status(201).send(user);
