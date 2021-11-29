@@ -1,5 +1,5 @@
 <template>
-  <v-dialog transition="dialog-bottom-transition" v-model="dialog" width="500">
+  <v-dialog v-if="is_logged_in" transition="dialog-bottom-transition" v-model="dialog" width="500">
     <template v-slot:activator="{ on, attrs }">
       <v-btn text v-bind="attrs" v-on="on"> Login </v-btn>
     </template>
@@ -42,13 +42,14 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="cancel">Cancel</v-btn>
             <v-btn color="primary" text type="submit">Login</v-btn>
+            <v-btn color="primary" text @click="cancel">Cancel</v-btn>
           </v-card-actions>
         </v-card>
       </form>
     </validation-observer>
   </v-dialog>
+  <v-btn v-else text @click="logout"> Logout </v-btn>
 </template>
 
 <script>
@@ -99,8 +100,6 @@ export default {
         .then((res) => {
           if (res) {
             // send data to backend
-            console.log(this.email);
-            console.log(this.password);
             UserAPI.login(this.email, this.password)
               .then((res) => {
                 console.log("Response: ", res.headers);
@@ -115,6 +114,14 @@ export default {
           console.log(err);
         });
     },
+    logout() {
+      console.log("LOGOUT")
+    }
   },
+  computed: {
+    is_logged_in() {
+      return true;
+    }
+  }
 };
 </script>
