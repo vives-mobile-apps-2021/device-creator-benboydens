@@ -7,7 +7,7 @@ import DeviceView from '@/views/DeviceView.vue'
 import QRScanView from '@/views/QRScanView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import MapView from '@/views/MapView.vue'
-import UserView from '@/views/UserView.vue'
+import ProfileView from '@/views/UserView.vue'
 
 Vue.use(VueRouter)
 
@@ -48,9 +48,9 @@ const routes = [
     component: RegisterView
   },
   {
-    path: '/users/:id',
-    name: 'User',
-    component: UserView
+    path: '/profile',
+    name: 'Profile',
+    component: ProfileView
   }
 ]
 

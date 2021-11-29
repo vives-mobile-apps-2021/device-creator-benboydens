@@ -9,7 +9,7 @@
 import UserProfile from '@/components/UserProfile.vue'
 
 export default {
-    name: "UserView",
+    name: "ProfileView",
     components: {
         UserProfile
     }

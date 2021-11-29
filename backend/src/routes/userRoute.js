@@ -14,14 +14,11 @@ function sanitize_user(user) {
 }
 
 const userRoute = {
-    get: (req, res, next) => {
-        let id = req.params.id;
-        const user = Users.find_by_id(id);
-
-        if (user) {
-            res.send(sanitize_user(user));
+    profile: (req, res, next) => {
+        if (req.user) {
+            res.send(sanitize_user(req.user));
         } else {
-            res.status(404).send({ message: `User with id ${id} not found.` })
+            res.status(401).send({message: "Unauthorized access."})
         }
     },
     register: (req, res, next) => {

@@ -25,10 +25,8 @@ export default {
     };
   },
   created() {
-    let id = this.$route.params.id;
-    UserAPI.get_user(id)
+    UserAPI.get_profile()
       .then((res) => {
-        console.log("Response: ", res);
         this.user = res.data;
       })
       .catch((err) => {
