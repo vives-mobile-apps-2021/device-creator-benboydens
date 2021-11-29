@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-if="is_logged_in" transition="dialog-bottom-transition" v-model="dialog" width="500">
+  <v-dialog
+    transition="dialog-bottom-transition"
+    v-model="dialog"
+    width="500"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn text v-bind="attrs" v-on="on"> Login </v-btn>
     </template>
@@ -49,11 +53,9 @@
       </form>
     </validation-observer>
   </v-dialog>
-  <v-btn v-else text @click="logout"> Logout </v-btn>
 </template>
 
 <script>
-import { UserAPI } from "@/api/device_api.js";
 import { required, email } from "vee-validate/dist/rules";
 import {
   extend,
@@ -99,28 +101,18 @@ export default {
         .validate()
         .then((res) => {
           if (res) {
-            // send data to backend
-            UserAPI.login(this.email, this.password)
-              .then((res) => {
-                console.log("Response: ", res.headers);
-                this.dialog = false;
-              })
-              .catch((err) => {
-                console.log("Error: ", err.body);
-              });
+            // login user
+            console.log("PASS", this.password)
+            const credentials = {
+              email: this.email,
+              password: this.password
+            }
+            this.$store.dispatch('login', credentials);
           }
         })
         .catch((err) => {
           console.log(err);
         });
-    },
-    logout() {
-      console.log("LOGOUT")
-    }
-  },
-  computed: {
-    is_logged_in() {
-      return true;
     }
   }
 };

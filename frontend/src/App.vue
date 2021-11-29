@@ -8,8 +8,8 @@
         <v-tab to="/scan"> Scan </v-tab>
       </v-tabs>
 
-      <login-alert />
-
+      <v-btn v-if="is_logged_in" text @click="logout">Logout</v-btn>
+      <login-alert v-else/>
       <v-avatar
         class="hidden-sm-and-down"
         color="grey darken-1 shrink"
@@ -33,5 +33,16 @@ export default {
   components: {
     LoginAlert,
   },
+  methods: {
+    logout() {
+      console.log("LOGOUT");
+      this.$store.dispatch("logout");
+    },
+  },
+  computed: {
+    is_logged_in() {
+      return this.$store.state.user
+    }
+  }
 };
 </script>

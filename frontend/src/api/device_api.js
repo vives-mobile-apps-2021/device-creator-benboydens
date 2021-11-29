@@ -50,7 +50,7 @@ const UserAPI = {
         return api.post('/login', user, { withCredentials: true });
     },
     logout() {
-        return api.delete('/logout');
+        return api.delete('/logout', { withCredentials: true });
     }
 }
 
