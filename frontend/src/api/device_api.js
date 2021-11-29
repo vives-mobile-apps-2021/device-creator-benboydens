@@ -11,11 +11,11 @@ const DevicesAPI = {
     },
 
     get_one_device(id) {
-        return api.get(`/${this.resource}/${id}`)
+        return api.get(`/${this.resource}/${id}`, { withCredentials: true })
     },
 
     create_device(device) {
-        return api.post(`/${this.resource}`, device)
+        return api.post(`/${this.resource}`, device, { withCredentials: true })
     }
 }
 
@@ -23,6 +23,7 @@ const ImageAPI = {
     resource: 'images',
     upload_image(file) {
         const config = {
+            withCredentials: true,
             headers: {
                 'content-type': 'multipart/form-data'
             }
@@ -46,7 +47,7 @@ const UserAPI = {
             email: email,
             password: password
         }
-        return api.post('/login', user);
+        return api.post('/login', user, { withCredentials: true });
     },
     logout() {
         return api.delete('/logout');

@@ -9,7 +9,7 @@
       </v-tabs>
 
       <login-alert />
-      
+
       <v-avatar
         class="hidden-sm-and-down"
         color="grey darken-1 shrink"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import LoginAlert from "@/components/loginAlert.vue";
+import LoginAlert from "@/components/LoginAlert.vue";
 
 export default {
   name: "App",

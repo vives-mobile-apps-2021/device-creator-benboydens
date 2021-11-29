@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn text v-bind="attrs" v-on="on"> Login </v-btn>
     </template>
-    <validation-observer ref="observer" v-slot="{ invalid }">
+    <validation-observer ref="observer">
       <form @submit.prevent="login">
         <v-card>
           <v-card-title class="text-h5 grey lighten-2">
@@ -43,9 +43,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="cancel">Cancel</v-btn>
-            <v-btn color="primary" text type="submit" :disabled="invalid"
-              >Login</v-btn
-            >
+            <v-btn color="primary" text type="submit">Login</v-btn>
           </v-card-actions>
         </v-card>
       </form>
@@ -105,7 +103,8 @@ export default {
             console.log(this.password);
             UserAPI.login(this.email, this.password)
               .then((res) => {
-                console.log("Response: ", res);
+                console.log("Response: ", res.headers);
+                this.dialog = false;
               })
               .catch((err) => {
                 console.log("Error: ", err.body);

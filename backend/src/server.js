@@ -17,7 +17,7 @@ const app = express();
 const PORT = config.general.port;
 
 // enable cross origin requests
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:8080' }));
 
 // enable application/json parsing
 app.use(express.json());
@@ -49,8 +49,8 @@ app.get('/', indexRoute.get);
 
 // device route
 app.get('/devices', deviceRoute.list)
-app.all('/devices/:id', deviceRoute.load)
-app.get('/devices/:id', deviceRoute.get)
+app.all('/devices/:id',isAuthenticated, deviceRoute.load)
+app.get('/devices/:id',isAuthenticated, deviceRoute.get)
 app.post('/devices', isAuthenticated, deviceRoute.post)
 
 // user route
