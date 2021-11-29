@@ -15,7 +15,21 @@ The backend (express app) exposes a clean API for the frontend to consume. It sh
 
 Except for the images, all this information should be stored in a database of your choice.
 
-You do not need to provide any authentication / authorization.
+~You do not need to provide any authentication / authorization.~
+
+The backend should provide routes for authentication and use Passport.js as authentication framework. Make sure to provide a route for:
+
+* registering a new user (email, passport, firstname, lastname, avatar)
+* logging in a user
+* logging out a user
+* a profile route with the details of the user (email, firstname, lastname, avatar)
+
+Only an authenticated user should be able to access the routes for:
+
+* creating a device
+* listing details of a device
+* uploading an image
+* getting the current user's details
 
 Make sure to provide a docker container for the backend.
 
@@ -38,6 +52,13 @@ A user should be allowed to create new devices with the following information (m
 Registering a device should be achieved by embedding a URL inside a QR code which also contains the GUID of the device. Scanning the URL should automatically bring you to the registration page with the GUID filled in. If the device is already registered it should provide the details page of the device.
 
 Uploading an image to the backend can be achieved using a package such as `multer`.
+
+Provide the functionality for the user to be able to:
+
+* register a new user account
+* login
+* logout
+* a profile page with an avatar, firstname, lastname and email
 
 Make sure to provide a docker container for the Vue app.
 
@@ -67,6 +88,7 @@ The following criteria will be taken into consideration when this assignment is 
 | README | 0 - 4 |
 | RESTfull API | 0 - 4 |
 | Image Upload | 0 - 2 |
+| Authentication | 0 - 8 |
 | QR code | 0 - 2 |
 | Device GPS location | 0 - 2 |
 | User friendliness | 0 - 4 |
