@@ -3,6 +3,7 @@
     <v-app-bar app color="white" flat>
       <v-tabs centered class="ml-n9" color="grey darken-1">
         <v-tab to="/"> Home </v-tab>
+        <v-tab v-if="is_logged_in" to="/profile"> Profile </v-tab>
         <v-tab to="/devices"> Devices </v-tab>
         <v-tab v-if="is_logged_in" to="/map"> Map </v-tab>
         <v-tab v-if="is_logged_in" to="/scan"> Scan </v-tab>
