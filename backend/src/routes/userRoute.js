@@ -4,7 +4,26 @@ import { validate } from "jsonschema";
 import passport from "passport";
 import bcrypt from 'bcrypt';
 
+function sanitize_user(user) {
+    return {
+        id: user.id,
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname
+    }
+}
+
 const userRoute = {
+    get: (req, res, next) => {
+        let id = req.params.id;
+        const user = Users.find_by_id(id);
+
+        if (user) {
+            res.send(sanitize_user(user));
+        } else {
+            res.status(404).send({ message: `User with id ${id} not found.` })
+        }
+    },
     register: (req, res, next) => {
         // validation
         const validation = validate(req.body, AuthenticationSchema.register);
@@ -20,7 +39,7 @@ const userRoute = {
                 return Users.create(req.body.email, hashedPassword, req.body.firstname, req.body.lastname);
             })
             .then((user) => {
-                res.status(201).send(user);
+                res.status(201).send(sanitize_user(user));
             })
             .catch(() => {
                 res.status(500).send({

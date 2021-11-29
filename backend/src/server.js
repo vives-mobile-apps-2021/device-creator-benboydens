@@ -54,6 +54,7 @@ app.get('/devices/:id',isAuthenticated, deviceRoute.get)
 app.post('/devices', isAuthenticated, deviceRoute.post)
 
 // user route
+app.get('/users/:id', userRoute.get)
 app.post('/register', userRoute.register)
 app.post('/login', userRoute.login)
 app.delete('/logout', userRoute.logout)
