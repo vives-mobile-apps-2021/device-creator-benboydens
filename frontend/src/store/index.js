@@ -19,7 +19,6 @@ export default new Vuex.Store({
       // send data to backend
       UserAPI.login(credentials.email, credentials.password)
         .then((res) => {
-          console.log("Response: ", res.data);
           store.commit('set_user', res.data);
         })
         .catch((err) => {
@@ -38,9 +37,9 @@ export default new Vuex.Store({
         })
     }
   },
-  computed: {
-    get_credentials() {
-      return this.$store.state.user;
+  getters: {
+    get_credentials(state) {
+      return  state.user.firstname[0] +  state.user.lastname[0];
     }
   }
 })

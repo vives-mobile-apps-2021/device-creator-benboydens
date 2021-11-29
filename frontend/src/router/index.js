@@ -5,6 +5,7 @@ import CreateDeviceView from '@/views/CreateDeviceView.vue'
 import DeviceListView from '@/views/DeviceListView.vue'
 import DeviceView from '@/views/DeviceView.vue'
 import QRScanView from '@/views/QRScanView.vue'
+import RegisterView from '@/views/RegisterView.vue'
 import MapView from '@/views/MapView.vue'
 
 Vue.use(VueRouter)
@@ -39,6 +40,11 @@ const routes = [
     path: '/devices/:id',
     name: 'Device',
     component: DeviceView
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView
   }
 ]
 

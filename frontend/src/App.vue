@@ -15,7 +15,7 @@
         class="hidden-sm-and-down"
         color="grey darken-1 shrink"
         size="32"
-      ><span class="white--text">CJ</span></v-avatar>
+      ><span v-if="is_logged_in" class="white--text">{{ credentials }}</span></v-avatar>
     </v-app-bar>
 
     <v-main class="grey lighten-3">
@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     logout() {
-      console.log("LOGOUT");
       this.$store.dispatch("logout");
     },
   },
@@ -44,6 +43,9 @@ export default {
     is_logged_in() {
       return this.$store.state.user;
     },
+    credentials() {
+      return this.$store.getters.get_credentials;
+    }
   },
 };
 </script>
