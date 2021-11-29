@@ -3,13 +3,14 @@
     <v-app-bar app color="white" flat>
       <v-tabs centered class="ml-n9" color="grey darken-1">
         <v-tab to="/"> Home </v-tab>
-        <v-tab to="/devices"> Devices </v-tab>
-        <v-tab to="/map"> Map </v-tab>
-        <v-tab to="/scan"> Scan </v-tab>
+          <v-tab to="/devices"> Devices </v-tab>
+          <v-tab v-if="is_logged_in" to="/map"> Map </v-tab>
+          <v-tab v-if="is_logged_in" to="/scan"> Scan </v-tab>
+          <v-tab v-if="!is_logged_in" to="/register">Register</v-tab>
       </v-tabs>
 
       <v-btn v-if="is_logged_in" text @click="logout">Logout</v-btn>
-      <login-alert v-else/>
+      <login-alert v-else />
       <v-avatar
         class="hidden-sm-and-down"
         color="grey darken-1 shrink"
@@ -41,8 +42,8 @@ export default {
   },
   computed: {
     is_logged_in() {
-      return this.$store.state.user
-    }
-  }
+      return this.$store.state.user;
+    },
+  },
 };
 </script>
