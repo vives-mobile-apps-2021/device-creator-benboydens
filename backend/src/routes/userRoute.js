@@ -21,7 +21,7 @@ const userRoute = {
             res.status(401).send({message: "Unauthorized access."})
         }
     },
-    register: (req, res, next) => {
+    register: (req, res, next) => { // TODO CHECK IF USER EMAIL ALREADY EXISTS
         // validation
         const validation = validate(req.body, AuthenticationSchema.register);
         if (!validation.valid) {

@@ -68,10 +68,17 @@
         </v-container>
       </v-form>
     </validation-observer>
+    <simple-dialog
+      v-model="dialog"
+      title="Success"
+      text="User registration was succesfull!"
+      @action="close_dialog"
+    />
   </v-sheet>
 </template>
 
 <script>
+import SimpleDialog from "@/components/SimpleDialog.vue";
 import { UserAPI } from "@/api/device_api.js";
 import { required, max, email } from "vee-validate/dist/rules";
 import {
@@ -106,11 +113,13 @@ export default {
       lastname: "",
       email: "",
       password: "",
+      dialog: false,
     };
   },
   components: {
     ValidationProvider,
     ValidationObserver,
+    SimpleDialog,
   },
   methods: {
     submit() {
@@ -126,17 +135,21 @@ export default {
               email: this.email,
               password: this.password,
             };
-            
+
             // create user in backend
             UserAPI.register(user)
               .then((res) => {
                 console.log("SUCCESS!", res);
+                this.dialog = true;
               })
               .catch((err) => console.log(err));
           }
         })
         .catch((err) => console.log(err));
     },
+    close_dialog() {
+        this.$router.push("/");
+    }
   },
 };
 </script>
