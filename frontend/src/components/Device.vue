@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!error">
+  <div>
     <v-card v-if="device" outlined class="pr-3">
       <v-row>
         <v-col cols="12" sm="8" md="9" lg="10">
@@ -30,9 +30,7 @@
         </v-col>
       </v-row>
     </v-card>
-  </div>
-  <div v-else>
-    <error-dialog :message="error"/>
+    <error-dialog v-model="error"  :message="error"/>
   </div>
 </template>
 

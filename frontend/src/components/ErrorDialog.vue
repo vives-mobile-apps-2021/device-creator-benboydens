@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="500" persistent>
+  <v-dialog v-model="value" width="500" persistent>
     <v-card>
       <v-card-title class="text-h5">
         Something went wrong
@@ -20,12 +20,8 @@
 <script>
 export default {
   name: "ErrorDialog",
-  data: () => {
-    return {
-        dialog: true,
-    };
-  },
   props: {
+      value: Boolean,
       message: String,
   }
 };
