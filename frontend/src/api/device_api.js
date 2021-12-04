@@ -35,11 +35,7 @@ const ImageAPI = {
 }
 
 const UserAPI = {
-    register(email, password) {
-        const new_user = {
-            email: email,
-            password: password
-        }
+    register(new_user) {
         return api.post('/register', new_user);
     },
     login(email, password) {

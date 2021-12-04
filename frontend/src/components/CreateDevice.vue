@@ -96,22 +96,17 @@
         </v-container>
       </v-form>
     </validation-observer>
-    <v-dialog v-model="dialog" width="500">
-      <v-card>
-        <v-card-title>Message</v-card-title>
-        <v-card-text>Device was made successfully!</v-card-text>
-        <v-card-actions
-          ><v-spacer></v-spacer>
-          <v-btn color="primary" text @click="close_dialog">
-            Close
-          </v-btn></v-card-actions
-        >
-      </v-card>
-    </v-dialog>
+    <simple-dialog
+      v-model="dialog"
+      title="Message"
+      text="Device was made succesfully!"
+      @action="close_dialog"
+    />
   </v-sheet>
 </template>
 
 <script>
+import SimpleDialog from "@/components/SimpleDialog.vue";
 import { DevicesAPI, ImageAPI } from "@/api/device_api.js";
 import { required, max, length } from "vee-validate/dist/rules";
 import {
@@ -155,6 +150,7 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    SimpleDialog,
   },
   created() {
     this.guid = this.$route.query.guid;

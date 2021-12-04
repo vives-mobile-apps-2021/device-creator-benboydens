@@ -32,7 +32,7 @@
     </v-card>
   </div>
   <div v-else>
-    <error-dialog :message="error.response.data.message"/>
+    <error-dialog :message="error"/>
   </div>
 </template>
 
@@ -71,7 +71,7 @@ export default {
           // show nice error message
           console.log("ERROR");
         }
-        this.error = err;
+        this.error = res.data.message;
       });
   },
 };
