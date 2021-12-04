@@ -8,6 +8,7 @@ import QRScanView from '@/views/QRScanView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import MapView from '@/views/MapView.vue'
 import ProfileView from '@/views/UserView.vue'
+import PageNotFound from "@/views/PageNotFound.vue"
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: ProfileView
+  },
+  {
+    path: '*',
+    name: "PageNotFound",
+    component: PageNotFound
   }
 ]
 
