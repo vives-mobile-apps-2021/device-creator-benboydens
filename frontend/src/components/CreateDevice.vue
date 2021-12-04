@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="pa-3">
-    <validation-observer ref="observer" v-slot="{ invalid }">
+    <validation-observer ref="observer">
       <v-form @submit.prevent="upload_image">
         <v-container>
           <v-row>
@@ -91,12 +91,7 @@
                 {{ error }}
               </v-alert>
             </v-col>
-            <v-btn color="primary" type="submit" :disabled="invalid"
-              >Create</v-btn
-            >
-            <v-btn @click="validate" color="secondary" class="ml-3"
-              >Validate</v-btn
-            >
+            <v-btn color="primary" type="submit">Create</v-btn>
           </v-row>
         </v-container>
       </v-form>

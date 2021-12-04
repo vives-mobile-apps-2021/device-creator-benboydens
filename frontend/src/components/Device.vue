@@ -20,27 +20,33 @@
             </v-card-text>
           </div>
         </v-col>
-        
+
         <v-col cols="12" sm="4" md="3" lg="2">
           <v-img
             :src="image_url + '/images/' + device.image"
-              class="ml-auto my-3"
-              style="width: 180px; height: 180px"
+            class="ml-auto my-3"
+            style="width: 180px; height: 180px"
           ></v-img>
         </v-col>
       </v-row>
     </v-card>
   </div>
-  <v-container v-else>
-    {{ error }}
-  </v-container>
+  <div v-else>
+    <error-dialog :message="error.response.data.message"/>
+  </div>
 </template>
 
 <script>
 import { DevicesAPI } from "@/api/device_api.js";
+import ErrorDialog from "@/components/ErrorDialog.vue"
+//import LoginAlert from "@/components/LoginAlert.vue";
 
 export default {
   name: "Device",
+  components: {
+    //LoginAlert,
+    ErrorDialog
+  },
   data: () => {
     return {
       device: undefined,
@@ -57,6 +63,14 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+        const res = err.response;
+        if (res.status === 401) {
+          // show login modal
+          console.log("LOGIN");
+        } else {
+          // show nice error message
+          console.log("ERROR");
+        }
         this.error = err;
       });
   },
