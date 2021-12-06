@@ -21,7 +21,7 @@ const userRoute = {
             res.status(401).send({message: "Unauthorized access."})
         }
     },
-    register: (req, res, next) => { // TODO CHECK IF USER EMAIL ALREADY EXISTS
+    register: (req, res, next) => {
         // validation
         const validation = validate(req.body, AuthenticationSchema.register);
         if (!validation.valid) {
@@ -31,6 +31,15 @@ const userRoute = {
             });
             return;
         }
+
+        // check if user email already exists
+        const user_check = Users.find_by_email(req.body.email);
+        if (user_check) {
+            // email already in use
+            res.status(400).send({ message: "Email already in use" })
+            return;
+        }
+
         bcrypt.hash(req.body.password, 10)
             .then((hashedPassword) => {
                 return Users.create(req.body.email, hashedPassword, req.body.firstname, req.body.lastname);
@@ -50,7 +59,7 @@ const userRoute = {
         if (!validation.valid) {
             return res.status(400).send({
                 message: 'Invalid user information',
-                errors: validation.errors.map(e => e.stack)
+                details: validation.errors.map(e => e.stack)
             });
         }
 

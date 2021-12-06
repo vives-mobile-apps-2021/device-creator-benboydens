@@ -76,7 +76,7 @@ const Users = {
         return db.data.users.find(user => user.id === id);
     },
     find_by_email: (email) => {
-        return db.data.users.find(user => user.email === email);
+        return db.data.users.find(user => user.email.toLowerCase() === email.toLowerCase());
     }
 }
 
