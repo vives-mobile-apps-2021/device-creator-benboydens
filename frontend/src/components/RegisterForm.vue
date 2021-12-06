@@ -51,11 +51,14 @@
             <v-col cols="12" sm="6">
               <validation-provider
                 v-slot="{ errors }"
-                name="password"
-                rules="required"
+                name="Password"
+                :rules="{
+                  required: true,
+                  regex: '^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9 ]).{8,}$',
+                }"
               >
                 <v-text-field
-                  label="password"
+                  label="Password"
                   type="password"
                   v-model="password"
                   required
@@ -80,7 +83,7 @@
 <script>
 import SimpleDialog from "@/components/SimpleDialog.vue";
 import { UserAPI } from "@/api/device_api.js";
-import { required, max, email } from "vee-validate/dist/rules";
+import { required, max, email, regex } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
@@ -105,6 +108,12 @@ extend("email", {
   message: "Email must be valid",
 });
 
+extend("regex", {
+  ...regex,
+  message:
+    "Minimum eight characters, at least one letter, one number and one special character",
+});
+
 export default {
   name: "RegisterForm",
   data: () => {
@@ -123,7 +132,6 @@ export default {
   },
   methods: {
     submit() {
-      console.log("SUBMIT");
       this.$refs.observer
         .validate()
         .then((res) => {
@@ -138,18 +146,15 @@ export default {
 
             // create user in backend
             UserAPI.register(user)
-              .then((res) => {
-                console.log("SUCCESS!", res);
-                this.dialog = true;
-              })
+              .then(() => (this.dialog = true))
               .catch((err) => console.log(err));
           }
         })
         .catch((err) => console.log(err));
     },
     close_dialog() {
-        this.$router.push("/");
-    }
+      this.$router.push("/");
+    },
   },
 };
 </script>
