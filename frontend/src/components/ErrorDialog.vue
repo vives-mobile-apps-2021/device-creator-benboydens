@@ -1,9 +1,7 @@
 <template>
-  <v-dialog v-model="value" width="500" persistent>
+  <v-dialog v-model="value" width="500">
     <v-card>
-      <v-card-title class="text-h5">
-        Something went wrong
-      </v-card-title>
+      <v-card-title class="text-h5"> Something went wrong </v-card-title>
 
       <v-card-text>
         {{ message }}
@@ -18,6 +16,7 @@
 </template>
 
 <script>
+// TODO FIX v-model="value" not good gives error
 export default {
   name: "ErrorDialog",
   props: {

@@ -14,9 +14,7 @@ const DeviceRoute = {
         if (req.device) {
             next();
         } else {
-            var err = new Error('cannot find device ' + id);
-            err.status = 404;
-            next(err);
+            res.status(404).send({ message: "Device not found" })
         }
     },
 

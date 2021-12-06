@@ -30,7 +30,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <error-dialog v-model="error"  :message="error"/>
+    <error-dialog v-model="dialog"  :message="error_msg"/>
   </div>
 </template>
 
@@ -48,7 +48,8 @@ export default {
   data: () => {
     return {
       device: undefined,
-      error: undefined,
+      error_msg: undefined,
+      dialog: false,
       image_url:
         process.env.VUE_APP_API_URL + ":" + process.env.VUE_APP_API_PORT,
     };
@@ -69,7 +70,8 @@ export default {
           // show nice error message
           console.log("ERROR");
         }
-        this.error = res.data.message;
+        this.error_msg = res.data.message;
+        this.dialog = true;
       });
   },
 };
