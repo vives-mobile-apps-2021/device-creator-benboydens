@@ -9,7 +9,7 @@
         <v-tab v-if="is_logged_in" to="/scan"> Scan </v-tab>
         <v-tab v-if="!is_logged_in" to="/register">Register</v-tab>
       </v-tabs>
-
+      <v-btn v-if="updateAvailable" @click="update">Update</v-btn>
       <v-btn v-if="is_logged_in" text @click="logout">Logout</v-btn>
       <login-alert v-else />
       <profile-avatar />
@@ -25,14 +25,44 @@
 
 <script>
 import LoginAlert from "@/components/LoginAlert.vue";
-import ProfileAvatar from "@/components/ProfileAvatar.vue"
+import ProfileAvatar from "@/components/ProfileAvatar.vue";
 
 export default {
   name: "App",
   components: {
-    LoginAlert, ProfileAvatar
+    LoginAlert,
+    ProfileAvatar,
+  },
+  data: () => {
+    return {
+      registration: null,
+      updateAvailable: false,
+      isRefreshing: false,
+    };
+  },
+  created() {
+    document.addEventListener("swupdatefound", this.updateTheApp, {
+      once: true,
+    });
+
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (this.isRefreshing) return;
+      this.isRefreshing = true;
+      window.location.reload();
+    });
   },
   methods: {
+    updateTheApp(e) {
+      this.registration = e.detail;
+      this.updateAvailable = true;
+    },
+    update() {
+      this.updateAvailable = false;
+      if (this.registration || this.registration.waiting) {
+        this.registration.waiting.postMessage({ type: "SKIP_WAITING" });
+      }
+    },
+
     logout() {
       this.$store.dispatch("logout");
     },
@@ -40,7 +70,7 @@ export default {
   computed: {
     is_logged_in() {
       return this.$store.state.user;
-    }
+    },
   },
 };
 </script>
