@@ -12,7 +12,9 @@
 
       <v-btn v-if="is_logged_in" text @click="logout">Logout</v-btn>
       <login-alert v-else />
-      <profile-avatar />
+      <router-link style="text-decoration: none; color: inherit" to="/profile">
+        <profile-avatar />
+      </router-link>
     </v-app-bar>
 
     <v-main class="grey lighten-3">
@@ -25,12 +27,13 @@
 
 <script>
 import LoginAlert from "@/components/LoginAlert.vue";
-import ProfileAvatar from "@/components/ProfileAvatar.vue"
+import ProfileAvatar from "@/components/ProfileAvatar.vue";
 
 export default {
   name: "App",
   components: {
-    LoginAlert, ProfileAvatar
+    LoginAlert,
+    ProfileAvatar,
   },
   methods: {
     logout() {
@@ -40,7 +43,7 @@ export default {
   computed: {
     is_logged_in() {
       return this.$store.state.user;
-    }
+    },
   },
 };
 </script>
