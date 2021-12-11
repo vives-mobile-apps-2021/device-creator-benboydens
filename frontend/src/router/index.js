@@ -6,7 +6,6 @@ import DeviceListView from '@/views/DeviceListView.vue'
 import DeviceView from '@/views/DeviceView.vue'
 import QRScanView from '@/views/QRScanView.vue'
 import RegisterView from '@/views/RegisterView.vue'
-import MapView from '@/views/MapView.vue'
 import ProfileView from '@/views/UserView.vue'
 import PageNotFound from "@/views/PageNotFound.vue"
 
@@ -27,11 +26,6 @@ const routes = [
     path: '/devices',
     name: 'Devices',
     component: DeviceListView
-  },
-  {
-    path: '/map',
-    name: 'Map',
-    component: MapView
   },
   {
     path: '/devices/create',

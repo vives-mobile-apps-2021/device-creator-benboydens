@@ -1,11 +1,10 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app color="white" flat>
-      <v-tabs centered class="ml-n9" color="grey darken-1">
+    <v-app-bar app dark>
+      <v-tabs centered class="ml-n9">
         <v-tab to="/"> Home </v-tab>
         <v-tab v-if="is_logged_in" to="/profile"> Profile </v-tab>
         <v-tab to="/devices"> Devices </v-tab>
-        <v-tab v-if="is_logged_in" to="/map"> Map </v-tab>
         <v-tab v-if="is_logged_in" to="/scan"> Scan </v-tab>
         <v-tab v-if="!is_logged_in" to="/register">Register</v-tab>
       </v-tabs>

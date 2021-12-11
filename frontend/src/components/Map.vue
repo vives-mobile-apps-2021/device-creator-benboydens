@@ -1,40 +1,34 @@
 <template>
-  <v-sheet>
-    <v-container>
-      <l-map style="height: 500px" :zoom="zoom" :center="center">
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <l-marker
-          v-for="device in devices"
-          :key="device.id"
-          :lat-lng="[device.location.lat, device.location.long]"
-        >
-          <l-popup>
-            <v-card elevation="0" style="width: 180px">
-              <v-card-title class="map-marker-title">
-                {{
-                  device.name.length > 20
-                    ? device.name.substring(0, 20) + "..."
-                    : device.name
-                }}
-              </v-card-title>
-              <v-card-subtitle class="map-marker-subtitle">
-                {{
-                  device.description.length > 70
-                    ? device.description.substring(0, 70) + "..."
-                    : device.description
-                }}
-              </v-card-subtitle>
-              <v-card-actions>
-                <router-link :to="'/devices/' + device.id"
-                  >Details
-                </router-link>
-              </v-card-actions>
-            </v-card>
-          </l-popup>
-        </l-marker>
-      </l-map>
-    </v-container>
-  </v-sheet>
+  <l-map style="height: 500px" :zoom="zoom" :center="center">
+    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+    <l-marker
+      v-for="device in devices"
+      :key="device.id"
+      :lat-lng="[device.location.lat, device.location.long]"
+    >
+      <l-popup>
+        <v-card elevation="0" style="width: 180px">
+          <v-card-title class="map-marker-title">
+            {{
+              device.name.length > 20
+                ? device.name.substring(0, 20) + "..."
+                : device.name
+            }}
+          </v-card-title>
+          <v-card-subtitle class="map-marker-subtitle">
+            {{
+              device.description.length > 70
+                ? device.description.substring(0, 70) + "..."
+                : device.description
+            }}
+          </v-card-subtitle>
+          <v-card-actions>
+            <router-link :to="'/devices/' + device.id">Details </router-link>
+          </v-card-actions>
+        </v-card>
+      </l-popup>
+    </l-marker>
+  </l-map>
 </template>
 
 <script>
