@@ -12,9 +12,7 @@
 
       <v-btn v-if="is_logged_in" text @click="logout">Logout</v-btn>
       <login-alert v-else />
-      <router-link style="text-decoration: none; color: inherit" to="/profile">
-        <profile-avatar />
-      </router-link>
+      <profile-avatar />
     </v-app-bar>
 
     <v-main class="grey lighten-3">
