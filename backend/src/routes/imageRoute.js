@@ -19,9 +19,6 @@ const imageRoute = {
         });
     },
     post: (req, res, next) => {
-        // TODO add extra checks
-        console.log("File: ", req.file);
-        console.log("Body: ", req.body);
         res.status(201).send({
             "filename": req.file.filename
         });

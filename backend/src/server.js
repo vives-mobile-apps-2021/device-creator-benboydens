@@ -41,7 +41,21 @@ var storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
   }
 })
-const upload = multer({ storage: storage })
+
+// create multer middleware with file limitations
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 1000000,
+    files: 1
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(png|jpg|jpeg|webp|gif)$/)) {
+      cb(new Error('Please upload an image.'))
+    }
+    cb(undefined, true)
+  }
+})
 
 
 // root route

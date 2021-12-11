@@ -71,7 +71,7 @@ const userRoute = {
             req.login(user, (err) => {
                 if (err) return res.status(500).send({ message: "Login action failed" });
 
-                res.send(user);
+                res.send(user); // TODO sanitize user
             })
         })(req, res)    // Middleware
     },
