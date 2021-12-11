@@ -186,7 +186,7 @@ export default {
             //show dialog
             this.dialog = true;
           } else {
-            // hangle error message
+            // handle error message
             this.error = res;
           }
         })
@@ -209,6 +209,7 @@ export default {
                 this.create_device(res.data);
               })
               .catch((err) => {
+                this.error = err;
                 console.log("ERR", err);
               });
           }
