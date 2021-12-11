@@ -8,23 +8,28 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   // plugins: [createPersistedState()],
   state: {
-    user: undefined
+    user: undefined,
+    error: undefined
   },
   mutations: {
     set_user(state, user) {
       state.user = user;
+    },
+    set_error(state, error) {
+      state.error = error;
     }
   },
   actions: {
     login(store, credentials) {
       console.log("STORE LOGIN");
       // send data to backend
-      UserAPI.login(credentials.email, credentials.password)
+      return UserAPI.login(credentials.email, credentials.password)
         .then((res) => {
           store.commit('set_user', res.data);
+          store.commit('set_error', undefined);
         })
         .catch((err) => {
-          console.log("Error: ", err.body);
+          store.commit('set_error', err);
         });
     },
     logout(store) {
@@ -41,7 +46,7 @@ export default new Vuex.Store({
   },
   getters: {
     get_credentials(state) {
-      return  state.user.firstname[0] +  state.user.lastname[0];
+      return state.user.firstname[0] + state.user.lastname[0];
     }
   }
 })

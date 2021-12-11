@@ -1,9 +1,5 @@
 <template>
-  <v-dialog
-    transition="dialog-bottom-transition"
-    v-model="dialog"
-    width="500"
-  >
+  <v-dialog transition="dialog-bottom-transition" v-model="dialog" width="500">
     <template v-slot:activator="{ on, attrs }">
       <v-btn text v-bind="attrs" v-on="on"> Login </v-btn>
     </template>
@@ -42,6 +38,15 @@
             </validation-provider>
           </v-card-text>
 
+          <v-alert
+            v-if="error"
+            dense
+            outlined
+            type="error"
+            class="pa-3 mx-3"
+          >
+            {{ error.response.data.message }}
+          </v-alert>
           <v-divider></v-divider>
 
           <v-card-actions>
@@ -93,6 +98,7 @@ export default {
       this.dialog = false;
       this.email = "";
       this.password = "";
+      this.clear_error();
       this.$refs.observer.reset();
     },
     login() {
@@ -101,19 +107,27 @@ export default {
         .validate()
         .then((res) => {
           if (res) {
-            // login user
-            console.log("PASS", this.password)
+            // validation succes so login user
+            console.log("PASS", this.password);
             const credentials = {
               email: this.email,
-              password: this.password
-            }
-            this.$store.dispatch('login', credentials);
+              password: this.password,
+            };
+            this.$store.dispatch("login", credentials);
           }
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    clear_error() {
+      this.$store.commit('set_error', undefined)
     }
-  }
+  },
+  computed: {
+    error() {
+      return this.$store.state.error;
+    },
+  },
 };
 </script>
