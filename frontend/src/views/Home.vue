@@ -4,7 +4,7 @@
       <v-container class="px-5">
         <v-row>
           <v-col cols="12" class="pb-0">
-            <h1>Device creator</h1>
+            <h1>Device Creator Ben Boydens</h1>
           </v-col>
           <v-col cols="12" sm="7" md="8">
             <p>
@@ -18,8 +18,8 @@
               location of every device so we can overview them on a map.
             </p>
             <p>
-              Created by Ben Boydens of Vives Hogeschool. Located in Brugge
-              Belgium.
+              This project was created by Ben Boydens. I was made for the course
+              Mobile Apps of Vives Hogeschool Brugge Belgium.
             </p>
           </v-col>
           <v-col cols="12" sm="5" md="4">

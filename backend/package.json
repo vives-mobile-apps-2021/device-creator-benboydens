@@ -4,7 +4,7 @@
   "description": "backend for our device list",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon --ignore ./data src/server.js",
+    "dev": "nodemon --legacy-watch --ignore ./data src/server.js",
     "prod": "node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
