@@ -4,7 +4,7 @@
       <v-container class="px-5">
         <v-row>
           <v-col cols="12" class="pb-0">
-            <h1>Device Creator Ben Boydens</h1>
+            <h1>Device Creator</h1>
           </v-col>
           <v-col cols="12" sm="7" md="8">
             <p>
