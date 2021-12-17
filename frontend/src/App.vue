@@ -19,7 +19,7 @@
         <router-view></router-view>
       </v-container>
     </v-main>
-    <v-footer padless>
+    <v-footer padless dark>
       <v-col class="text-center" cols="12">
         {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
       </v-col>

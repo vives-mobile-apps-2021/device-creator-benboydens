@@ -21,29 +21,34 @@
           </div>
         </v-col>
 
-        <v-col cols="12" sm="4" md="3" lg="2">
+        <v-col cols="12" sm="4" md="3" lg="2" class="hidden-xs-only">
           <v-img
             :src="image_url + '/images/' + device.image"
             class="ml-auto my-3"
-            style="width: 180px; height: 180px"
+            style="width: 170px; height: 170px"
           ></v-img>
         </v-col>
       </v-row>
+
+      <v-img
+        :src="image_url + '/images/' + device.image"
+        class="ml-auto my-3 hidden-sm-and-up small-image"
+      ></v-img>
     </v-card>
-    <error-dialog v-model="dialog"  :message="error_msg"/>
+    <error-dialog v-model="dialog" :message="error_msg" />
   </div>
 </template>
 
 <script>
 import { DevicesAPI } from "@/api/device_api.js";
-import ErrorDialog from "@/components/ErrorDialog.vue"
+import ErrorDialog from "@/components/ErrorDialog.vue";
 //import LoginAlert from "@/components/LoginAlert.vue";
 
 export default {
   name: "Device",
   components: {
     //LoginAlert,
-    ErrorDialog
+    ErrorDialog,
   },
   data: () => {
     return {
@@ -76,3 +81,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .small-image {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+  }
+</style>

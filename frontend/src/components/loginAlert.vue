@@ -108,7 +108,6 @@ export default {
         .then((res) => {
           if (res) {
             // validation succes so login user
-            console.log("PASS", this.password);
             const credentials = {
               email: this.email,
               password: this.password,

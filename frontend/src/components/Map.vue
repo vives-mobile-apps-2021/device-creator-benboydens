@@ -1,5 +1,5 @@
 <template>
-  <l-map style="height: 500px" :zoom="zoom" :center="center">
+  <l-map style="height: 500px; z-index: 0;" :zoom="zoom" :center="center">
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
     <l-marker
       v-for="device in devices"
