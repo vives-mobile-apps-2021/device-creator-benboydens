@@ -107,7 +107,7 @@
 
 <script>
 import SimpleDialog from "@/components/SimpleDialog.vue";
-import { UserAPI, ImageAPI } from "@/api/device_api.js";
+import { UserAPI, AvatarAPI } from "@/api/device_api.js";
 import { required, max, email, regex } from "vee-validate/dist/rules";
 import {
   extend,
@@ -165,7 +165,7 @@ export default {
         .then((res) => {
           // res is true if validation is successfull
           if (res) {
-            ImageAPI.upload_image(this.avatar)
+            AvatarAPI.upload_avatar(this.avatar)
               .then((res) => {
                 const filename = res.data.filename;
                 const user = {

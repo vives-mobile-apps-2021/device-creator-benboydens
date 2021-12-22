@@ -34,6 +34,21 @@ const ImageAPI = {
     }
 }
 
+const AvatarAPI = {
+    resource: 'avatars',
+    upload_avatar(file) {
+        const config = {
+            withCredentials: true,
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        const formData = new FormData();
+        formData.append('image', file); // name 'image' has to be the same as in the backend for multer!!!
+        return api.post(`/${this.resource}`, formData, config);
+    }
+}
+
 const UserAPI = {
     register(new_user) {
         return api.post('/register', new_user);
@@ -53,4 +68,4 @@ const UserAPI = {
     }
 }
 
-export { api, DevicesAPI, ImageAPI, UserAPI }
+export { api, DevicesAPI, ImageAPI, UserAPI, AvatarAPI }
