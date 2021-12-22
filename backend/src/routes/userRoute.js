@@ -9,7 +9,8 @@ function sanitize_user(user) {
         id: user.id,
         email: user.email,
         firstname: user.firstname,
-        lastname: user.lastname
+        lastname: user.lastname,
+        avatar: user.avatar
     }
 }
 
@@ -42,7 +43,7 @@ const userRoute = {
 
         bcrypt.hash(req.body.password, 10)
             .then((hashedPassword) => {
-                return Users.create(req.body.email, hashedPassword, req.body.firstname, req.body.lastname);
+                return Users.create(req.body.email, hashedPassword, req.body.firstname, req.body.lastname, req.body.avatar);
             })
             .then((user) => {
                 res.status(201).send(sanitize_user(user));

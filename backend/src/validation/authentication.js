@@ -5,9 +5,10 @@ const AuthenticationSchema = {
             email: { type: "string", format: "email" },
             password: { type: "string" },
             firstname: { type: "string" },
-            lastname: { type: "string" }
+            lastname: { type: "string" },
+            avatar: { type: "string" }
         },
-        required: ["email", "password", "firstname", "lastname"],
+        required: ["email", "password", "firstname", "lastname", "avatar"],
         additionalProperties: false
     },
     login: {

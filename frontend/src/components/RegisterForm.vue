@@ -66,6 +66,25 @@
                 />
               </validation-provider>
             </v-col>
+            <v-col cols="12">
+              <validation-provider
+                v-slot="{ errors }"
+                name="Image"
+                rules="required"
+              >
+                <v-file-input
+                  accept="image/*"
+                  prepend-icon="mdi-camera"
+                  label="Image"
+                  truncate-length="50"
+                  v-model="avatar"
+                  name="Image"
+                  required
+                  dense
+                  :error-messages="errors"
+                ></v-file-input>
+              </validation-provider>
+            </v-col>
             <v-btn color="primary" type="submit">Register</v-btn>
           </v-row>
         </v-container>
@@ -77,12 +96,18 @@
       text="User registration was succesfull!"
       @action="close_dialog"
     />
+    <simple-dialog
+      v-model="show_error"
+      title="Message"
+      :text="error_msg"
+      @action="show_error = false"
+    />
   </v-sheet>
 </template>
 
 <script>
 import SimpleDialog from "@/components/SimpleDialog.vue";
-import { UserAPI } from "@/api/device_api.js";
+import { UserAPI, ImageAPI } from "@/api/device_api.js";
 import { required, max, email, regex } from "vee-validate/dist/rules";
 import {
   extend,
@@ -122,7 +147,10 @@ export default {
       lastname: "",
       email: "",
       password: "",
+      avatar: undefined,
       dialog: false,
+      show_error: false,
+      error_msg: undefined,
     };
   },
   components: {
@@ -137,17 +165,23 @@ export default {
         .then((res) => {
           // res is true if validation is successfull
           if (res) {
-            const user = {
-              firstname: this.firstname,
-              lastname: this.lastname,
-              email: this.email,
-              password: this.password,
-            };
-
-            // create user in backend
-            UserAPI.register(user)
+            ImageAPI.upload_image(this.avatar)
+              .then((res) => {
+                const filename = res.data.filename;
+                const user = {
+                  firstname: this.firstname,
+                  lastname: this.lastname,
+                  email: this.email,
+                  password: this.password,
+                  avatar: filename,
+                };
+                return UserAPI.register(user);
+              })
               .then(() => (this.dialog = true))
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                const response = err.response.data;
+                this.error_msg = response.message;
+              });
           }
         })
         .catch((err) => console.log(err));

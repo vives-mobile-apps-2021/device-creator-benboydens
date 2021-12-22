@@ -75,7 +75,7 @@ app.delete('/logout', userRoute.logout)
 
 // image route
 app.get('/images/:id', imageRoute.get)
-app.post('/images/upload', isAuthenticated, upload.single('image'), imageRoute.post)
+app.post('/images/upload', upload.single('image'), imageRoute.post)
 
 // connect data base should be refactored to handle errors
 await connect();
