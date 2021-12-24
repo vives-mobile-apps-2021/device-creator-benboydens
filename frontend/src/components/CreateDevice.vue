@@ -86,11 +86,6 @@
                 </v-input>
               </validation-provider>
             </v-col>
-            <v-col cols="12" v-if="error">
-              <v-alert dense outlined type="error" class="mb-0">
-                {{ error }}
-              </v-alert>
-            </v-col>
             <v-btn color="primary" type="submit">Create</v-btn>
           </v-row>
         </v-container>
@@ -102,11 +97,13 @@
       text="Device was made succesfully!"
       @action="close_dialog"
     />
+    <error-dialog :error="error" />
   </v-sheet>
 </template>
 
 <script>
 import SimpleDialog from "@/components/SimpleDialog.vue";
+import ErrorDialog from "@/components/ErrorDialog.vue";
 import { DevicesAPI, ImageAPI } from "@/api/device_api.js";
 import { required, max, length } from "vee-validate/dist/rules";
 import {
@@ -151,6 +148,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
     SimpleDialog,
+    ErrorDialog,
   },
   created() {
     this.guid = this.$route.query.guid;
@@ -181,17 +179,10 @@ export default {
         },
       };
       DevicesAPI.create_device(device)
-        .then((res) => {
-          if (res.status < 300) {
-            //show dialog
-            this.dialog = true;
-          } else {
-            // handle error message
-            this.error = res;
-          }
+        .then(() => {
+          this.dialog = true;
         })
         .catch((err) => {
-          console.log(err);
           this.error = err;
         });
     },
@@ -210,7 +201,6 @@ export default {
               })
               .catch((err) => {
                 this.error = err;
-                console.log("ERR", err);
               });
           }
         })

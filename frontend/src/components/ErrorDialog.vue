@@ -9,7 +9,10 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" text @click="$router.go(-1)"> Go Back </v-btn>
+        <v-btn color="primary" text @click="close_dialog">
+          <span v-if="back">Go Back</span>
+          <span v-else>Close</span>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -20,11 +23,21 @@ export default {
   name: "ErrorDialog",
   props: {
     error: Error,
+    back: Boolean,
   },
   data: () => {
     return {
       show: false,
-      error_msg: undefined
+      error_msg: undefined,
+    };
+  },
+  methods: {
+    close_dialog() {
+      if (this.back) {
+        this.$router.go(-1);
+      } else {
+        this.show = false;
+      }
     }
   },
   watch: {
@@ -35,11 +48,13 @@ export default {
           this.$store.commit("set_show_login", true);
         } else {
           // something went wrong show error to user
-          this.error_msg = newValue.response ? newValue.response.data.message: "Oh no!" ;
+          this.error_msg = newValue.response
+            ? newValue.response.data.message
+            : "Oh no!";
           this.show = true;
         }
-      } 
-    }
-  }
+      }
+    },
+  },
 };
 </script>
