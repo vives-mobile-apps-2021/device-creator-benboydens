@@ -35,7 +35,7 @@
         class="ml-auto my-3 hidden-sm-and-up small-image"
       ></v-img>
     </v-card>
-    <error-dialog :show.sync="dialog" :message="error_msg" />
+    <error-dialog :error="error" />
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
   data: () => {
     return {
       device: undefined,
-      error_msg: undefined,
+      error: undefined,
       dialog: false,
       image_url:
         process.env.VUE_APP_API_URL + ":" + process.env.VUE_APP_API_PORT,
@@ -66,28 +66,18 @@ export default {
         this.device = res.data;
       })
       .catch((err) => {
-        console.log(err);
-        const res = err.response;
-        if (res.status === 401) {
-          // show login modal
-          console.log("LOGIN");
-        } else {
-          // show nice error message
-          console.log("ERROR");
-        }
-        this.error_msg = res.data.message;
-        this.dialog = true;
+        this.error = err;
       });
   },
 };
 </script>
 
 <style scoped>
-  .small-image {
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    width: 50px;
-    height: 50px;
-  }
+.small-image {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+}
 </style>

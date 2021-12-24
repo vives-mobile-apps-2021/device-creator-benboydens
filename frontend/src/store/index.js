@@ -9,7 +9,8 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     user: undefined,
-    error: undefined
+    error: undefined,
+    showLogin: false
   },
   mutations: {
     set_user(state, user) {
@@ -17,26 +18,27 @@ export default new Vuex.Store({
     },
     set_error(state, error) {
       state.error = error;
+    },
+    set_show_login(state, show) {
+      state.showLogin = show;
     }
   },
   actions: {
     login(store, credentials) {
-      console.log("STORE LOGIN");
       // send data to backend
       return UserAPI.login(credentials.email, credentials.password)
         .then((res) => {
           store.commit('set_user', res.data);
           store.commit('set_error', undefined);
+          store.commit('set_show_login', false);
         })
         .catch((err) => {
           store.commit('set_error', err);
         });
     },
     logout(store) {
-      console.log("STORE LOGOUT");
       UserAPI.logout()
-        .then((res) => {
-          console.log("Response: ", res);
+        .then(() => {
           store.commit('set_user', undefined);
         })
         .catch((err) => {

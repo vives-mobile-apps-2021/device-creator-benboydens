@@ -1,8 +1,5 @@
 <template>
-  <v-dialog transition="dialog-bottom-transition" v-model="dialog" width="500">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn text v-bind="attrs" v-on="on"> Login </v-btn>
-    </template>
+  <v-dialog transition="dialog-bottom-transition" v-model="showDialog" width="500">
     <validation-observer ref="observer">
       <form @submit.prevent="login">
         <v-card>
@@ -39,12 +36,13 @@
           </v-card-text>
 
           <v-alert
-            v-if="error"
+            v-if="error && error.response"
             dense
             outlined
             type="error"
             class="pa-3 mx-3"
           >
+          <!-- TODO fix dit zodat het altijd werkt -->
             {{ error.response.data.message }}
           </v-alert>
           <v-divider></v-divider>
@@ -88,14 +86,13 @@ export default {
   },
   data: () => {
     return {
-      dialog: false,
       email: "",
       password: "",
     };
   },
   methods: {
     cancel() {
-      this.dialog = false;
+      this.showDialog = false;
       this.email = "";
       this.password = "";
       this.clear_error();
@@ -124,6 +121,14 @@ export default {
     }
   },
   computed: {
+    showDialog: {
+      get() {
+        return this.$store.state.showLogin;
+      },
+      set(newValue) {
+        this.$store.commit("set_show_login", newValue)
+      }
+    },
     error() {
       return this.$store.state.error;
     },

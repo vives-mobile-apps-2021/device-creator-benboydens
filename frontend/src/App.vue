@@ -10,7 +10,8 @@
       </v-tabs>
 
       <v-btn v-if="is_logged_in" text @click="logout">Logout</v-btn>
-      <login-alert v-else />
+      <v-btn v-else text @click="show_login">Login</v-btn>
+      <login-alert />
       <profile-avatar />
     </v-app-bar>
 
@@ -37,7 +38,15 @@ export default {
     LoginAlert,
     ProfileAvatar,
   },
+  data: () => {
+    return {
+      login_dialog: false
+    }
+  },
   methods: {
+    show_login() {
+      this.$store.commit("set_show_login", true)
+    },
     logout() {
       this.$store.dispatch("logout");
     },

@@ -1,10 +1,10 @@
 <template>
-  <v-dialog v-model="showDialog" width="500">
+  <v-dialog v-model="show" width="500">
     <v-card>
       <v-card-title class="text-h5"> Something went wrong </v-card-title>
 
       <v-card-text>
-        {{ message }}
+        {{ error }}
       </v-card-text>
 
       <v-card-actions>
@@ -16,21 +16,27 @@
 </template>
 
 <script>
-// TODO FIX v-model="value" not good gives error
 export default {
   name: "ErrorDialog",
   props: {
-      show: Boolean,
-      message: String,
+    error: Error,
   },
-  computed: {
-    showDialog: {
-      get: function() {
-        return this.show;
-      },
-      set: function(newValue) {
-        this.$emit("update:show", newValue)
-      }
+  data: () => {
+    return {
+      show: false
+    }
+  },
+  watch: {
+    error(newValue) {
+      if (newValue) {
+        if (newValue.response.status === 401) {
+          // user is unauthorized so needs to login
+          this.$store.commit("set_show_login", true);
+        } else {
+          // something whent wrong show error to user
+          this.show = true;
+        }
+      } 
     }
   }
 };

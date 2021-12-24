@@ -23,7 +23,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <error-dialog :show.sync="dialog" :message="error"></error-dialog>
+    <error-dialog :error="error" />
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
       .catch((err) => {
         console.log("Error: ", err);
         this.dialog = true;
-        this.error = err.response.data.message;
+        this.error = err;
       });
   },
 };
