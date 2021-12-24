@@ -35,7 +35,7 @@
         class="ml-auto my-3 hidden-sm-and-up small-image"
       ></v-img>
     </v-card>
-    <error-dialog v-model="dialog" :message="error_msg" />
+    <error-dialog :show.sync="dialog" :message="error_msg" />
   </div>
 </template>
 

@@ -97,7 +97,7 @@
       </v-form>
     </validation-observer>
     <simple-dialog
-      v-model="dialog"
+      :show.sync="dialog"
       title="Message"
       text="Device was made succesfully!"
       @action="close_dialog"

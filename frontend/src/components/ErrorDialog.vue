@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="value" width="500">
+  <v-dialog v-model="showDialog" width="500">
     <v-card>
       <v-card-title class="text-h5"> Something went wrong </v-card-title>
 
@@ -20,8 +20,18 @@
 export default {
   name: "ErrorDialog",
   props: {
-      value: Boolean,
+      show: Boolean,
       message: String,
+  },
+  computed: {
+    showDialog: {
+      get: function() {
+        return this.show;
+      },
+      set: function(newValue) {
+        this.$emit("update:show", newValue)
+      }
+    }
   }
 };
 </script>

@@ -10,34 +10,27 @@
         <v-tabs-items v-model="tab" vertical>
           <v-tab-item transition="false">
             <qrcode-stream @decode="onDecode" class="qr-stream mt-3">
-              <v-progress-linear
-                v-if="!qrcodevalue"
-                indeterminate
-                color="blue"
-              ></v-progress-linear>
+              <v-progress-linear indeterminate color="blue"></v-progress-linear>
             </qrcode-stream>
 
-            <div v-if="!qrcodevalue" class="qr-subtitle pa-3">
-              Scanning for QR-codes...
-            </div>
-            <div v-else class="qr-subtitle pa-3">
-              <v-icon color="green darken-2"> mdi-check-bold </v-icon>
-              Found
-              <a :href="qrcodevalue">
-                {{ qrcodevalue }}
-              </a>
-            </div>
+            <div class="qr-subtitle pa-3">Scanning for QR-codes...</div>
           </v-tab-item>
           <v-tab-item transition="false">
             <h5>Drop file here</h5>
-            <qrcode-capture @decode="onDecode"></qrcode-capture>
-            <div class="pa-3" v-if="qrcodevalue">
-              <v-icon color="green darken-2"> mdi-check-bold </v-icon>
-              Found
-              <a :href="qrcodevalue">
-                {{ qrcodevalue }}
-              </a>
-            </div>
+            <qrcode-capture
+              class="mb-5"
+              @decode="onDecode"
+              @detect="onDetect"
+            ></qrcode-capture>
+            <v-alert
+              v-if="showAlert"
+              dense
+              outlined
+              type="error"
+              class="pa-3 mx-3"
+            >
+              Could not find a qr-code in image
+            </v-alert>
           </v-tab-item>
         </v-tabs-items>
       </v-container>
@@ -52,19 +45,28 @@ export default {
   name: "QrScanner",
   data: () => {
     return {
-      qrcodevalue: undefined,
       tab: null,
       items: ["Use Camera", "Use File"],
+      showAlert: false,
     };
   },
   components: {
     QrcodeStream,
-    QrcodeCapture 
+    QrcodeCapture,
   },
   methods: {
     onDecode(decodedString) {
-      console.log(decodedString);
-      this.qrcodevalue = decodedString;
+      this.$router.push("/devices/create?guid=" + decodedString);
+    },
+    onDetect(promise) {
+      promise
+        .then((obj) => {
+          if (obj.content === null) {
+            // decoded nothing
+            this.showAlert = true;
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

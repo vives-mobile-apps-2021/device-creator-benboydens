@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="value" width="500">
+  <v-dialog v-model="showDialog" width="500">
     <v-card>
       <v-card-title>{{ title }}</v-card-title>
       <v-card-text>{{ text }}</v-card-text>
@@ -21,15 +21,21 @@ export default {
             dialog: false
         }
     },
-    props: {
-        title: String,
-        text: String,
-        value: Boolean,
-    },
+    props: ['title', 'text', 'show'],
     methods: {
         action() {
             this.$emit("action")
         }
+    },
+    computed: {
+      showDialog: {
+        get: function() {
+          return this.show;
+        },
+        set: function(newValue) {
+          this.$emit("update:show", newValue);
+        }
+      }
     }
 };
 </script>

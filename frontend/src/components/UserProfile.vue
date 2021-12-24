@@ -23,7 +23,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <error-dialog v-model="dialog" :message="error"></error-dialog>
+    <error-dialog :show.sync="dialog" :message="error"></error-dialog>
   </div>
 </template>
 
