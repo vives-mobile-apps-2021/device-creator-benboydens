@@ -53,23 +53,23 @@ Backend uses in total 11 different routes.
 
 ### Device Route
 
-| Method | Route | Description |
-| ----------- | ----------- | ----------- |
-| GET | /devices | Get a list of devices |
-| POST | /devices | Create a new device |
-| GET | /devices/{id} | Get a specific device with id |
+| Method | Route | Description | Authentication |
+| ----------- | ----------- | ----------- | :-----------: |
+| GET | /devices | Get a list of devices | ❌ |
+| POST | /devices | Create a new device | ✔ |
+| GET | /devices/{id} | Get a specific device with id | ✔ |
 
 ### User Routes
-| Method | Route | Description |
-| ----------- | ----------- | ----------- |
-| GET | /profile | Get the profile of the current logged in user |
-| POST | /register | Create a login |
-| POST | /login | Login to your account |
-| DELETE | /logout | Logout the current user |
+| Method | Route | Description | Authentication |
+| ----------- | ----------- | ----------- | :-----------: |
+| GET | /profile | Get the profile of the current logged in user | ✔ |
+| POST | /register | Create a login | ❌ |
+| POST | /login | Login to your account | ❌ |
+| DELETE | /logout | Logout the current user | ❌ |
 
 ### Image Routes
-| Method | Route | Description |
-| ----------- | ----------- | ----------- |
-| GET | /images/{id} | Get a specific image with id |
-| POST | /images/upload | Upload a new image |
-| POST | /avatars | Upload an avatar image for your account |
+| Method | Route | Description | Authentication |
+| ----------- | ----------- | ----------- | :-----------: |
+| GET | /images/{id} | Get a specific image with id | ❌ |
+| POST | /images/upload | Upload a new image | ✔ |
+| POST | /avatars | Upload an avatar image for your account | ❌ |
