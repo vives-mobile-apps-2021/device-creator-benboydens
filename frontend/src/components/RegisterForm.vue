@@ -91,22 +91,18 @@
       </v-form>
     </validation-observer>
     <simple-dialog
-      v-model="dialog"
+      :show.sync="dialog"
       title="Success"
       text="User registration was succesfull!"
       @action="close_dialog"
     />
-    <simple-dialog
-      v-model="show_error"
-      title="Message"
-      :text="error_msg"
-      @action="show_error = false"
-    />
+    <error-dialog :error="error" />
   </v-sheet>
 </template>
 
 <script>
 import SimpleDialog from "@/components/SimpleDialog.vue";
+import ErrorDialog from "@/components/ErrorDialog.vue";
 import { UserAPI, AvatarAPI } from "@/api/device_api.js";
 import { required, max, email, regex } from "vee-validate/dist/rules";
 import {
@@ -149,14 +145,14 @@ export default {
       password: "",
       avatar: undefined,
       dialog: false,
-      show_error: false,
-      error_msg: undefined,
+      error: undefined,
     };
   },
   components: {
     ValidationProvider,
     ValidationObserver,
     SimpleDialog,
+    ErrorDialog,
   },
   methods: {
     submit() {
@@ -179,8 +175,7 @@ export default {
               })
               .then(() => (this.dialog = true))
               .catch((err) => {
-                const response = err.response.data;
-                this.error_msg = response.message;
+                this.error = err;
               });
           }
         })
