@@ -49,18 +49,18 @@ Vue frontend using the following dependencies.
 
 ## Backend
 
-Backend uses in total 11 different routes.
+Backend uses in total 11 different routes. Last column is to know if the user needs to be logged in.
 
 ### Device Route
 
-| Method | Route | Description | Authentication |
+| Method | Route | Description | Login |
 | ----------- | ----------- | ----------- | :-----------: |
 | GET | /devices | Get a list of devices | ❌ |
 | POST | /devices | Create a new device | ✔ |
 | GET | /devices/{id} | Get a specific device with id | ✔ |
 
 ### User Routes
-| Method | Route | Description | Authentication |
+| Method | Route | Description | Login |
 | ----------- | ----------- | ----------- | :-----------: |
 | GET | /profile | Get the profile of the current logged in user | ✔ |
 | POST | /register | Create a login | ❌ |
@@ -68,8 +68,46 @@ Backend uses in total 11 different routes.
 | DELETE | /logout | Logout the current user | ❌ |
 
 ### Image Routes
-| Method | Route | Description | Authentication |
+| Method | Route | Description | Login |
 | ----------- | ----------- | ----------- | :-----------: |
 | GET | /images/{id} | Get a specific image with id | ❌ |
 | POST | /images/upload | Upload a new image | ✔ |
 | POST | /avatars | Upload an avatar image for your account | ❌ |
+
+### Body format
+POST /devices
+```js
+{
+  name: "name",
+  description: "description",
+  guid: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  image: "image.jpg",
+  location: {
+    lat: 50,
+    long: 35
+  }
+}
+```
+
+POST /register
+```js
+{
+  email: "test@example.com",
+  password: "myPassword",
+  firstname: "Alice",
+  lastname: "Bob",
+  avatar: "image.jpg"
+}
+```
+
+POST /login
+```js
+{
+  email: "test@example.com",
+  password: "myPassword"
+}
+```
+
+POST /images/upload + /avatars
+
+Moet header ```'content-type': 'multipart/form-data'``` hebben aanstaan. En moet de afbeelding meegeven met een veld genaamd ```image```.
