@@ -1,101 +1,132 @@
-# Mobile Apps - Device Creator Challenge
+# Device creator Ben Boydens
 
-This challenge involves creating both a frontend as well as a backend for managing lab devices.
+Welcome this is the device creator app. This is an application where you can register all kinds of devices. You can view your devices and create new devices using a Vue frontend. To create and view new devices you will have to create an account.
 
-A device can be anything, from a computer to a Raspberry Pi to a small embedded microcontroller.
+Created by Ben Boydens for the class Mobile Apps for Vives Hogeschool.
 
-## The Backend
+## Service Diagram
 
-The backend (express app) exposes a clean API for the frontend to consume. It should provide routes for the following functions:
+![Schema](./img/diagram.png)
 
-* Creation of a device
-* Listing of the details of a specific device
-* Listing of basic info of all devices
-* Uploading an image
+## How to setup
 
-Except for the images, all this information should be stored in a database of your choice.
+The project can be easily be set-up for development using Docker. Just run the following command in same directory as the docker-compose.yml file.
+```
+docker-compose up --build
+```
 
-~You do not need to provide any authentication / authorization.~
+---
+Alternatively you can install everything locally. Install everything for the frontend and backend with.
+```
+npm install
+```
 
-The backend should provide routes for authentication and use Passport.js as authentication framework. Make sure to provide a route for:
+Run the development server for the frontend.
+```
+npm run serve
+```
 
-* registering a new user (email, passport, firstname, lastname, avatar)
-* logging in a user
-* logging out a user
-* a profile route with the details of the user (email, firstname, lastname, avatar)
+Build the frontend.
+```
+npm build
+```
 
-Only an authenticated user should be able to access the routes for:
+Run the development server for the backend.
+```
+npm run dev
+```
 
-* creating a device
-* listing details of a device
-* uploading an image
-* getting the current user's details
+## Frontend
 
-Make sure to provide a docker container for the backend.
+Vue frontend using the following dependencies.
+- bcrypt
+- dotenv
+- express
+- jsonschema
+- lowdb
+- multer
+- passport
 
-Both these application can be hosted in this single github repo but should be split into separate directories.
+Here you can see some screenshots of what the frontend looks like. This first image the homepage of the project. Here there is some text
+explaining the application and a map where you can see the location of the current devices.
 
-## The Frontend
+![Home](./img/Home.png)
 
-The frontend (Vue app) provides a nice user interface that allows the management of the devices.
+This is the device page. Here you can find all the current devices that are registered.
 
-Existing devices should be listed with basic information. A user should be able to request the details of each device.
+![Devices](./img/Devices.png)
 
-A user should be allowed to create new devices with the following information (minimum but not limited to):
+Finaly here is the page where you can register a new device. To get here you need to scan a QR-code first. To do this you need to be logged in.
 
-* name for the device
-* some sort of GUID (retrieved from scanned QR code)
-* a description
-* a picture / image of the device
-* a location (use GPS location service)
+![Create Device](./img/createDevice.png)
 
-Registering a device should be achieved by embedding a URL inside a QR code which also contains the GUID of the device. Scanning the URL should automatically bring you to the registration page with the GUID filled in. If the device is already registered it should provide the details page of the device.
+## Backend
 
-Uploading an image to the backend can be achieved using a package such as `multer`.
+Backend uses in total 11 different routes. Last column is to know if the user needs to be logged in.
 
-Provide the functionality for the user to be able to:
+### Device Route
 
-* register a new user account
-* login
-* logout
-* a profile page with an avatar, firstname, lastname and email
+| Method | Route | Description | Login |
+| ----------- | ----------- | ----------- | :-----------: |
+| GET | /devices | Get a list of devices | ❌ |
+| POST | /devices | Create a new device | ✔ |
+| GET | /devices/{id} | Get a specific device with id | ✔ |
 
-Make sure to provide a docker container for the Vue app.
+### User Routes
+| Method | Route | Description | Login |
+| ----------- | ----------- | ----------- | :-----------: |
+| GET | /profile | Get the profile of the current logged in user | ✔ |
+| POST | /register | Create a login | ❌ |
+| POST | /login | Login to your account | ❌ |
+| DELETE | /logout | Logout the current user | ❌ |
 
-## Docker Compose
+### Image Routes
+| Method | Route | Description | Login |
+| ----------- | ----------- | ----------- | :-----------: |
+| GET | /images/{id} | Get a specific image with id | ❌ |
+| POST | /images/upload | Upload a new image | ✔ |
+| POST | /avatars | Upload an avatar image for your account | ❌ |
 
-To allow all containers to be spun up easily, you should also provide a docker compose file. Place it in the root of this repository.
+### Body format
+POST /devices
+```js
+{
+  name: "name",
+  description: "description",
+  guid: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  image: "image.jpg",
+  location: {
+    lat: 50,
+    long: 35
+  }
+}
+```
 
-## Decent Readme
+POST /register
+```js
+{
+  email: "test@example.com",
+  password: "myPassword",
+  firstname: "Alice",
+  lastname: "Bob",
+  avatar: "image.jpg"
+}
+```
 
-Provide a decent README for this project. Rename this `README.md` file to `assignment.md` and provide your own README.
+POST /login
+```js
+{
+  email: "test@example.com",
+  password: "myPassword"
+}
+```
 
-Make sure the following topics are provided (minimally):
+POST /images/upload + /avatars
 
-* Project Description with screenshots
-* Author
-* Service diagram (use draw.io or similar)
-* How to setup
-* API description
-* Pitfalls / ToDo's / ...
+Must have header ```'content-type': 'multipart/form-data'``` and the image must be uploaded with the field name ```image```.
 
-## Evaluation
+## TODO's
 
-The following criteria will be taken into consideration when this assignment is evaluated.
-
-| Criteria | Score |
-| --- | :---: |
-| README | 0 - 4 |
-| RESTfull API | 0 - 4 |
-| Image Upload | 0 - 2 |
-| Authentication | 0 - 8 |
-| QR code | 0 - 2 |
-| Device GPS location | 0 - 2 |
-| User friendliness | 0 - 4 |
-| Creativity | 0 - 2 |
-| Device creation | 0 - 4 |
-| Device listing | 0 - 2 |
-| Device details | 0 - 2 |
-| Docker-compose | 0 - 2 |
-| Docker frontend | 0 - 1 |
-| Docker backend | 0 - 1 |
+- Add a small map for setting the location when creating a new device.
+- Authorization on certain pages. (Now everyone can access the create device page)
+- Change the Image field of a device and the Avatar field of a user to a URL instead of a filename.
