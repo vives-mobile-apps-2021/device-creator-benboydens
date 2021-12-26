@@ -110,4 +110,4 @@ POST /login
 
 POST /images/upload + /avatars
 
-Moet header ```'content-type': 'multipart/form-data'``` hebben aanstaan. En moet de afbeelding meegeven met een veld genaamd ```image```.
+Must have header ```'content-type': 'multipart/form-data'``` and the image must be uploaded with the field name ```image```.
