@@ -1,4 +1,10 @@
-# Device creator
+# Device creator Ben Boydens
+
+## Service Diagram
+
+## Frontend
+
+## Backend
 
 ## Commands for docker
 
