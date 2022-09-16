@@ -1,8 +1,16 @@
 import { join, dirname } from 'path'
 import { Low, JSONFile } from 'lowdb'
 import { fileURLToPath } from 'url'
+import fs from 'fs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// check if data directory exists
+const data_dir = join(__dirname, '../../data')
+if (!fs.existsSync(data_dir)) {
+    console.log("Created new directory Data");
+    fs.mkdirSync(data_dir);
+}
 
 // Use JSON file for storage
 const file = join(__dirname, '../../data/db.json')

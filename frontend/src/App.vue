@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import LoginAlert from "@/components/LoginAlert.vue";
+import LoginAlert from "@/components/loginAlert.vue";
 import ProfileAvatar from "@/components/ProfileAvatar.vue";
 
 export default {

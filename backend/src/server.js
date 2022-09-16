@@ -11,6 +11,7 @@ import session from 'express-session';
 import passport from 'passport'
 import config from './config/config.js'
 import path from 'path'
+import { fileURLToPath } from 'url';
 import multer from 'multer'
 
 const app = express();
@@ -32,13 +33,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 // set up multer storage for images
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/')
-  },
+  destination: path.join(__dirname, '../uploads'),
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname)) //Appending extension
   }
 })
 
@@ -46,7 +47,7 @@ var storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1000000,
+    fileSize: 10000000,
     files: 1
   },
   fileFilter(req, file, cb) {
@@ -57,7 +58,7 @@ const upload = multer({
   }
 })
 
-// costum error handling when image requirements are not met
+// custom error handling when image requirements are not met
 const us = upload.single('image');
 const uploadSingleImage = function (req, res, next) {
   us(req, res, function (err) {
